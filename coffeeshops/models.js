@@ -15,8 +15,8 @@ const coffeeShops = {
       location: location,
       whenFound: whenFound || Date.now()
     };
-    this.posts.push(post);
-    return post;
+    this.coffeeshops.push(coffeeShop);
+    return coffeeShop;
   },
   get: function(id=null) {
     // if id passed in, retrieve single post,
@@ -58,4 +58,4 @@ function createCoffeeShopsModel() {
 }
 
 
-module.exports = {coffeeShops, createCoffeeShopsModel()};
+module.exports = {coffeeShops: createCoffeeShopsModel()};
