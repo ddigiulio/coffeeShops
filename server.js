@@ -3,7 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
-const {router: usersRouter} = require('./users');
+// const {router: usersRouter} = require('./users');
+const {router: coffeeShopRouter} = require('./coffeeshops');
 
 mongoose.Promise = global.Promise;
 
@@ -14,8 +15,8 @@ const app = express();
 // logging
 app.use(morgan('common'));
 
-app.use('/users/', usersRouter);
-
+// app.use('/users/', usersRouter);
+app.use('/coffeeshops', coffeeShopRouter);
 app.use('*', function(req, res) {
   return res.status(404).json({message: 'Not Found'});
 });

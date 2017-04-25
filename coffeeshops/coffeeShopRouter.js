@@ -2,14 +2,15 @@
 const express = require('express');
 const router = express.Router();
 
+
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+router.use(jsonParser);
 
 const {coffeeShops} = require('./models');
 
 coffeeShops.create("Victrola Coffee Shop", "a nice open and busy shop", "near Starbucks Roastery");
 coffeeShops.create('Analog Coffee Shop', "lowkey good music very open and friendly", "on Summit Ave");
-
 
 router.get('/', (req, res) => {
   res.json(coffeeShops.get());
@@ -72,4 +73,4 @@ router.put('/:id', jsonParser, (req, res) => {
   res.status(200).json(updatedItem);
 })
 
-module.exports = router;
+module.exports = {router};
