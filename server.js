@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 
-// const {router: usersRouter} = require('./users');
+const {router: usersRouter} = require('./users');
 const {router: coffeeShopRouter} = require('./coffeeshops');
 
 mongoose.Promise = global.Promise;
@@ -11,18 +11,19 @@ mongoose.Promise = global.Promise;
 const {PORT, DATABASE_URL} = require('./config');
 
 const app = express();
+app.use(express.static('public'));
+
 
 // logging
 app.use(morgan('common'));
 
-// app.use('/users/', usersRouter);
+app.use('/users/', usersRouter);
 app.use('/coffeeshops', coffeeShopRouter);
 app.use('*', function(req, res) {
   return res.status(404).json({message: 'Not Found'});
 });
 
-// referenced by both runServer and closeServer. closeServer
-// assumes runServer has run and set `server` to a server object
+
 let server;
 
 function runServer() {

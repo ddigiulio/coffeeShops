@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const STATE_ABBREVIATIONS = Object.keys(require('./state-abbreviations'));
 
 const UserSchema = mongoose.Schema({
   username: {

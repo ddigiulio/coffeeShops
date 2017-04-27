@@ -23,11 +23,7 @@ const coffeeShops = {
     if (id !== null) {
       return this.coffeeshops.find(coffeeShop => coffeeShop.id === id);
     }
-    // return posts sorted (descending) by
-    // publish date
-    // return this.coffeeShops.sort(function(a, b) {
-    //   return b.whenFound - a.whenFound
-    // });
+
     return this.coffeeshops.sort(function (a,b) {
       return b.whenFound - a.whenFound;
     });
