@@ -1,7 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-<body>
+<html>
 
-  <p>"Hello World."</p>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Places Searchbox</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="app.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvGl4j8OHDoeMFigPAwND28e_Ki-0SlFg&libraries=places&callback=initAutocomplete"
+        async defer></script>
+</head>
+
+<body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map"></div>
+
+  
 </body>
+
 </html>

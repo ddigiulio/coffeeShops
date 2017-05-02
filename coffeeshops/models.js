@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const coffeeShopsSchema = mongoose.Schema({
   name: {type: String, required: true},
   address: {type: String, required: true},
+  user: {type: String}
 
 });
 
