@@ -52,7 +52,9 @@ router.delete('/:id', (req, res) => {
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
-
+//doesnt have to be this way:  might not need to have ID in body as long as ID is in endpoint?
+//need to have a way to refer to which item I want to update and make sure that it is correct.
+//can also manually add ID in body request upon update through API?
 router.put('/:id', (req, res) => {
   // ensure that the id in the request path and the one in request body match
   // just so we dont update the wrong item 
@@ -63,7 +65,7 @@ router.put('/:id', (req, res) => {
     console.error(message);
     res.status(400).json({message: message});
   }
-  
+
   const toUpdate = {};
   const updateableFields = ['name', 'address'];
 
