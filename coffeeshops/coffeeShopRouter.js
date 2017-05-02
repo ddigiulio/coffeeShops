@@ -9,17 +9,22 @@ router.use(jsonParser);
 
 const {coffeeShops} = require('./models');
 
-coffeeShops.create("Victrola Coffee Shop", "a nice open and busy shop", "near Starbucks Roastery");
-coffeeShops.create('Analog Coffee Shop', "lowkey good music very open and friendly", "on Summit Ave");
-
 router.get('/', (req, res) => {
-  res.json(coffeeShops.get());
+  coffeeShops
+    .find()
+    .limit(10)
+    .exec()
+    .then(coffeeshops => {
+      res.json({
+        coffeeshops: coffeeshops.map(    
+       (coffeeshop) => coffeeshop.apiRepr())
+      });
+    });
 });
-
 
 router.post('/', jsonParser, (req, res) => {
-  // ensure `name` and `budget` are in request body
-  const requiredFields = ['name', 'description', 'location'];
+ 
+  const requiredFields = ['name', 'address'];
   for (let i=0; i<requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -28,49 +33,55 @@ router.post('/', jsonParser, (req, res) => {
       return res.status(400).send(message);
     }
   }
-  const item = coffeeShops.create(req.body.name, req.body.description, req.body.location);
-  res.status(201).json(item);
+
+  coffeeShops
+  .create({
+    name: req.body.name,
+    address: req.body.address
+  })
+  .then(
+    coffeeshop => res.status(201).json(coffeeshop.apiRepr())
+  )
 });
 
-
-// when DELETE request comes in with an id in path,
-// try to delete that item from ShoppingList.
 router.delete('/:id', (req, res) => {
-  coffeeShops.delete(req.params.id);
-  console.log(`Deleted shopping list item \`${req.params.ID}\``);
-  res.status(204).end();
+   coffeeShops
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(coffeeshop => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
-// when PUT request comes in with updated item, ensure has
-// required fields. also ensure that item id in url path, and
-// item id in updated item object match. if problems with any
-// of that, log error and send back status code 400. otherwise
-// call `ShoppingList.update` with updated item.
-router.put('/:id', jsonParser, (req, res) => {
-  const requiredFields = ['name', 'description', 'location'];
-  for (let i=0; i<requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`
-      console.error(message);
-      return res.status(400).send(message);
-    }
-  }
-  if (req.params.id !== req.body.id) {
+
+router.put('/:id', (req, res) => {
+  // ensure that the id in the request path and the one in request body match
+  // just so we dont update the wrong item 
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     const message = (
-      `Request path id (${req.params.id}) and request body id `
+      `Request path id (${req.params.id}) and request body id ` +
       `(${req.body.id}) must match`);
     console.error(message);
-    return res.status(400).send(message);
+    res.status(400).json({message: message});
   }
-  console.log(`Updating shopping list item \`${req.params.id}\``);
-  const updatedItem = coffeeShops.update({
-    id: req.params.id,
-    name: req.body.name,
-    description: req.body.description,
-    location: req.body.location
+  
+  const toUpdate = {};
+  const updateableFields = ['name', 'address'];
+
+  //eventually have a set of possible fields to update so make logic to check for that now
+  //if changing schema make sure PUT reflects those changes
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      toUpdate[field] = req.body[field];
+    }
   });
-  res.status(204).json(updatedItem);
-})
+
+  coffeeShops
+    // all key/value pairs in toUpdate will be updated -- that's what `$set` does
+    //remember that $set is targeting attributes in the object where toUpdate represents all fields 
+    .findByIdAndUpdate(req.params.id, {$set: toUpdate})
+    .exec()
+    .then(coffeeshop=> res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Internal server error'}));
+});
 
 module.exports = {router};
