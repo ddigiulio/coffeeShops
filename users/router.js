@@ -89,7 +89,8 @@ router.post('/', (req, res) => {
           username: username,
           password: hash,
           firstName: firstName,
-          lastName: lastName
+          lastName: lastName,
+          coffeeShops: []
         })
     })
     .then(user => {
@@ -112,13 +113,22 @@ router.get('/', (req, res) => {
     .catch(err => console.log(err) && res.status(500).json({message: 'Internal server error'}));
 });
 
-
-
-
 router.get('/me',
   passport.authenticate('basic', {session: false}),
-  (req, res) => res.json({user: req.user.apiRepr()})
+  (req, res) => {
+    res.json({user: req.user.apiRepr()})}
 );
 
+router.delete('/me',
+  passport.authenticate('basic', {session: false}),
+  (req, res) => {
+    console.log(req.params)
+    User
+    .remove({ username: "ddigiulio"})
+    .exec()
+    .then(user => res.status(204).end())
+    .catch(err => res.status(500).json({ message: 'Internal server error' }));
+  }
+);
 
 module.exports = {router};

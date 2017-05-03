@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const coffeeShopsSchema = mongoose.Schema({
   name: {type: String, required: true},
   address: {type: String, required: true},
-  user: {type: String}
+
 
 });
 
@@ -12,7 +12,8 @@ coffeeShopsSchema.methods.apiRepr = function() {
   return {
     id:  this._id,
     name: this.name,
-    address: this.address
+    address: this.address,
+  
   };
 }
 

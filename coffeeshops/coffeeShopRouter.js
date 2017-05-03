@@ -6,25 +6,34 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 router.use(jsonParser);
 
-const {coffeeShops} = require('./models');
+const {coffeeShops } = require('./models');
 
+var testArray = ["590a1c76eae05e83cbc5ce4c","590a1c76eae05e83cbc5ce4d", "590a1c76eae05e83cbc5ce4e"]
+//get all for the user
 router.get('/', (req, res) => {
   coffeeShops
-    .find()
-    .limit(10)
+    .find({
+      _id: {
+        $in: testArray
+      }
+    })
     .exec()
-    .then(coffeeshops => {
+     .then(coffeeshops => {
       res.json({
-        coffeeshops: coffeeshops.map(    
-       (coffeeshop) => coffeeshop.apiRepr())
+        coffeeshops: coffeeshops.map(
+          (coffeeshop) => coffeeshop.apiRepr())
       });
-    });
+    })
+     .catch(err => {
+    console.error(err);
+      res.status(500).json({message: 'Internal server error'})
+  });
 });
-
+//make another get just for specific coffee shop (click on it in view for more info??)
 router.post('/', jsonParser, (req, res) => {
- 
+
   const requiredFields = ['name', 'address'];
-  for (let i=0; i<requiredFields.length; i++) {
+  for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`
@@ -34,21 +43,21 @@ router.post('/', jsonParser, (req, res) => {
   }
 
   coffeeShops
-  .create({
-    name: req.body.name,
-    address: req.body.address
-  })
-  .then(
+    .create({
+      name: req.body.name,
+      address: req.body.address
+    })
+    .then(
     coffeeshop => res.status(201).json(coffeeshop.apiRepr())
-  )
+    )
 });
 
 router.delete('/:id', (req, res) => {
-   coffeeShops
+  coffeeShops
     .findByIdAndRemove(req.params.id)
     .exec()
     .then(coffeeshop => res.status(204).end())
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
+    .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 //doesnt have to be this way:  might not need to have ID in body as long as ID is in endpoint?
@@ -62,7 +71,7 @@ router.put('/:id', (req, res) => {
       `Request path id (${req.params.id}) and request body id ` +
       `(${req.body.id}) must match`);
     console.error(message);
-    res.status(400).json({message: message});
+    res.status(400).json({ message: message });
   }
 
   const toUpdate = {};
@@ -79,10 +88,10 @@ router.put('/:id', (req, res) => {
   coffeeShops
     // all key/value pairs in toUpdate will be updated -- that's what `$set` does
     //remember that $set is targeting attributes in the object where toUpdate represents all fields 
-    .findByIdAndUpdate(req.params.id, {$set: toUpdate})
+    .findByIdAndUpdate(req.params.id, { $set: toUpdate })
     .exec()
-    .then(coffeeshop=> res.status(204).end())
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
+    .then(coffeeshop => res.status(204).end())
+    .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
-module.exports = {router};
+module.exports = { router };
