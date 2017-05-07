@@ -39,16 +39,6 @@ passport.serializeUser(function(user, done) {
 });
 router.use(passport.initialize());
 
-router.get('/login', (req, res, next) => {
- 
-
-//   req.login(user, function(err) {
-//   if (err) { return next(err); }
-//   return res.json(req.user.username);
-// });
-
-
-})
 router.post('/', (req, res) => {
   if (!req.body) {
     return res.status(400).json({message: 'No request body'});
@@ -135,7 +125,7 @@ router.get('/me',
 );
 
 router.delete('/me',
-  passport.authenticate('basic', {session: false}),
+  passport.authenticate('basic', {session: true}),
   (req, res) => {
 
     User

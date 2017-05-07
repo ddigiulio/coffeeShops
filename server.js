@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+var cors = require('cors')
 
 const {router: usersRouter} = require('./users');
 const {router: coffeeShopRouter} = require('./coffeeshops');
@@ -12,6 +13,7 @@ const {PORT, DATABASE_URL} = require('./config');
 
 const app = express();
 app.use(express.static('public'));
+app.use(cors())
 
 
 // logging

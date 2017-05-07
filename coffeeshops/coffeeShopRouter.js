@@ -9,7 +9,7 @@ router.use(jsonParser);
 const {coffeeShops } = require('./models');
 
 var testArray = ["590a1c76eae05e83cbc5ce4c","590a1c76eae05e83cbc5ce4d", "590a1c76eae05e83cbc5ce4e"]
-//get all for the user
+//get all for the user USE IN testARray find again
 router.get('/', (req, res) => {
   coffeeShops
     .find()

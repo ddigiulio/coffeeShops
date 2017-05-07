@@ -27,11 +27,28 @@ function initAutocomplete() {
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.\
     //this is the search function
-    var random = Math.floor(Math.random()*10);
+    var random = Math.floor(Math.random() * 10);
     searchBox.addListener('places_changed', function () {
         //places changed is an event for input into a search box
         var places = searchBox.getPlaces();
+
+        var myurl = "http://localhost:8080/coffeeshops";
+        jQuery.ajax({
+            url: myurl,
+            type: "POST",
+            data: JSON.stringify
+            ({ 
+                name: places[random].name,
+                address: places[random].formatted_address
+            }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function () {
+            }
+        });
+
         console.log(places[random]);
+        console.log(places[random].name);
         if (places.length == 0) {
             return;
         }
