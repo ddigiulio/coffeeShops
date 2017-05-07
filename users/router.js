@@ -34,8 +34,21 @@ const basicStrategy = new BasicStrategy((username, password, callback) => {
 });
 
 passport.use(basicStrategy);
+passport.serializeUser(function(user, done) {
+  done(null, user.username);
+});
 router.use(passport.initialize());
 
+router.get('/login', (req, res, next) => {
+ 
+
+//   req.login(user, function(err) {
+//   if (err) { return next(err); }
+//   return res.json(req.user.username);
+// });
+
+
+})
 router.post('/', (req, res) => {
   if (!req.body) {
     return res.status(400).json({message: 'No request body'});
@@ -105,16 +118,18 @@ router.post('/', (req, res) => {
 // we're just doing this so we have a quick way to see
 // if we're creating users. keep in mind, you can also
 // verify this in the Mongo shell.
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate('basic', {session: true}), (req, res) => {
+  console.log(req.user.coffeeShops)
   return User
     .find()
     .exec()
     .then(users => res.json(users.map(user => user.apiRepr())))
+    // .then(res.json(req.user))
     .catch(err => console.log(err) && res.status(500).json({message: 'Internal server error'}));
 });
 
 router.get('/me',
-  passport.authenticate('basic', {session: false}),
+  passport.authenticate('basic', {session: true}),
   (req, res) => {
     res.json({user: req.user.apiRepr()})}
 );
@@ -122,7 +137,7 @@ router.get('/me',
 router.delete('/me',
   passport.authenticate('basic', {session: false}),
   (req, res) => {
-    console.log(req.params)
+
     User
     .remove({ username: "ddigiulio"})
     .exec()

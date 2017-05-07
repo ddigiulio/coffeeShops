@@ -16,7 +16,7 @@ function initAutocomplete() {
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
 
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function () {
@@ -25,10 +25,13 @@ function initAutocomplete() {
 
     var markers = [];
     // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
+    // more details for that place.\
+    //this is the search function
+    var random = Math.floor(Math.random()*10);
     searchBox.addListener('places_changed', function () {
+        //places changed is an event for input into a search box
         var places = searchBox.getPlaces();
-
+        console.log(places[random]);
         if (places.length == 0) {
             return;
         }

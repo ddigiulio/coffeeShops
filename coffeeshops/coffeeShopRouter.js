@@ -12,15 +12,11 @@ var testArray = ["590a1c76eae05e83cbc5ce4c","590a1c76eae05e83cbc5ce4d", "590a1c7
 //get all for the user
 router.get('/', (req, res) => {
   coffeeShops
-    .find({
-      _id: {
-        $in: testArray
-      }
-    })
+    .find()
     .exec()
-     .then(coffeeshops => {
+     .then(coffeeShops => {
       res.json({
-        coffeeshops: coffeeshops.map(
+        coffeeshops: coffeeShops.map(
           (coffeeshop) => coffeeshop.apiRepr())
       });
     })
