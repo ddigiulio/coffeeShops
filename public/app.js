@@ -7,12 +7,14 @@
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 function initAutocomplete() {
+
     var map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 47.6253, lng: -122.3222 },
         zoom: 14,
         mapTypeId: 'roadmap'
     });
 
+   
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox(input);
