@@ -10,15 +10,14 @@ const {coffeeShops } = require('./models');
 
 var testArray = ["590a1c76eae05e83cbc5ce4c","590a1c76eae05e83cbc5ce4d", "590a1c76eae05e83cbc5ce4e"]
 //get all for the user USE IN testARray find again
+//change for all users once users are implemented on front end
 router.get('/', (req, res) => {
   coffeeShops
     .find()
     .exec()
-     .then(coffeeShops => {
-      res.json({
-        coffeeshops: coffeeShops.map(
-          (coffeeshop) => coffeeshop.apiRepr())
-      });
+    .then(coffeeShops => {
+       coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
+      res.json(coffeeShops);
     })
      .catch(err => {
     console.error(err);
@@ -28,7 +27,7 @@ router.get('/', (req, res) => {
 //make another get just for specific coffee shop (click on it in view for more info??)
 router.post('/', jsonParser, (req, res) => {
 
-  const requiredFields = ['name', 'address'];
+  const requiredFields = ['name', 'address', 'rating', 'tags',  'photos'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -41,7 +40,10 @@ router.post('/', jsonParser, (req, res) => {
   coffeeShops
     .create({
       name: req.body.name,
-      address: req.body.address
+      address: req.body.address,
+      rating: req.body.rating,
+      tags: req.body.tags,
+      photos: req.body.photos
     })
     .then(
     coffeeshop => res.status(201).json(coffeeshop.apiRepr())

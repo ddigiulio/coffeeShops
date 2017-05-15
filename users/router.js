@@ -104,10 +104,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// never expose all your users like below in a prod application
-// we're just doing this so we have a quick way to see
-// if we're creating users. keep in mind, you can also
-// verify this in the Mongo shell.
+
 router.get('/', passport.authenticate('basic', {session: true}), (req, res) => {
   console.log(req.user.coffeeShops)
   return User
