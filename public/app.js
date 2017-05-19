@@ -1,10 +1,4 @@
-// This example adds a search box to a map, using the Google Place Autocomplete
-// feature. People can enter geographical searches. The search box will return a
-// pick list containing a mix of places and predicted search terms.
 
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 function initAutocomplete() {
 
@@ -52,17 +46,15 @@ function initAutocomplete() {
         var infowindow = new google.maps.InfoWindow({
         });
         var bounds = new google.maps.LatLngBounds();
+
+        var myurl = "http://localhost:8080/coffeeshops";
+        var tags = ["fun!", " nice atmosphere!!"]
         places.forEach(function (place, i) {
             if (!place.geometry) {
                 console.log("Returned place contains no geometry");
                 return;
             }
-            var photo;
-            if (place.photos != undefined) {
-                var photo = place.photos[0].getUrl({'maxWidth': 45, 'maxHeight': 45});
-                console.log(photo);
-               
-            }
+
 
             var icon = {
                 url: place.icon,
@@ -75,22 +67,42 @@ function initAutocomplete() {
             // Create a marker for each place.
             markers.push(new google.maps.Marker({
                 map: map,
-                icon:  icon,
+                icon: icon,
                 title: place.name,
                 position: place.geometry.location,
                 address: place.formatted_address,
                 rating: place.rating,
-                photo: photo
+                placeRef: i
             }));
 
             google.maps.event.addListener(markers[i], 'click', function () {
-
-                //ask why this doesnt work?
-                console.log(place.photos[0].getUrl());
-
+                var currentShop = places[this.placeRef];
                 infowindow.setContent('<div><strong>' + this.title + '</strong><br>' +
-                    'Address: ' + this.address + '<br>' + 'Rating: ' + this.rating + '<br>' + '<button onclick="saveCoffeeShop(\'' + place.name + '\')" type="button">Save!</button>' + '</div>');
+                    'Address: ' + this.address + '<br>' + 'Rating: ' + this.rating + '<br>' + '<button class="save">Save! </button>' + '</div>');
                 infowindow.open(map, this);
+                infowindow.addListener('domready', () => {
+                    
+                    $('button.save').on('click', function (evt, currentShop) {
+
+                         jQuery.ajax({
+                            url: myurl,
+                            type: "POST",
+                            data: JSON.stringify
+                                ({
+                                    name: currentShop.name,
+                                    address: currentShop.formatted_address,
+                                    rating: currentShop.rating,
+                                    tags: tags,
+                                    photos: currentShop.photos
+                                }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function () {
+                                console.log("successfully added");
+                            }
+                        });
+                    });
+                });
             });
 
 
@@ -104,60 +116,40 @@ function initAutocomplete() {
         map.fitBounds(bounds);
     });
 }
-//Add Tags?????? array of strings separated by commas??
-function saveCoffeeShop(title, address, rating, photos) {
-    var myurl = "http://localhost:8080/coffeeshops";
-    var tags = ["fun!", " nice atmosphere!!"]
-    jQuery.ajax({
-        url: myurl,
-        type: "POST",
-        data: JSON.stringify
-            ({
-                name: title,
-                address: address,
-                rating: rating,
-                tags: tags,
-                photos: photos
-            }),
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        success: function () {
-        }
-    });
-}
+
+
+
 
 function showCoffeeShops() {
 
     var myurl = "http://localhost:8080/coffeeshops";
 
-    var coffeeShopListTemplate = "";
-    $('ul').empty();
-    const getPromise = new Promise((resolve, reject) => {
-        $.get(myurl, function (coffeeShops) {
-            resolve(coffeeShops);
+    $('.show').on("click", function (event) {
+        var coffeeShopListTemplate = "";
+        $('ul').empty();
+        const getPromise = new Promise((resolve, reject) => {
+            $.get(myurl, function (coffeeShops) {
+                resolve(coffeeShops);
+            });
+        }).then(coffeeShops => {
+
+            coffeeShops.forEach(function (coffeeShop) {
+                //how to do distance??? pass in address to another function, get distance from location and display?
+                //to work on
+                coffeeShopListTemplate += (
+                    '<li>' + '<div>' +
+                    '<span>' + "Name: " + coffeeShop.name + '</span>' + '<br>'
+                    + '<span>' + "Rating: " + coffeeShop.rating + '</span>' + '<br>' +
+                    '<span>' + "Tags: " + coffeeShop.tags + '</span>' + '<br>' +
+                    '<span>' + "Distance: " + '</span>' +
+
+                    '</div>' + '</li>'
+                );
+
+            });
+
+            $('.coffeeShops').append(coffeeShopListTemplate);
         });
-    }).then(coffeeShops => {
-
-        coffeeShops.forEach(function (coffeeShop) {
-            //how to do distance??? pass in address to another function, get distance from location and display?
-            //to work on
-            coffeeShopListTemplate += (
-                '<li>' + '<div>' +
-                '<span>' + "Name: " + coffeeShop.name + '</span>' + '<br>'
-                + '<span>' + "Rating: " + coffeeShop.rating + '</span>' + '<br>' +
-                '<span>' + "Tags: " + coffeeShop.tags + '</span>' + '<br>' +
-                '<span>' + "Distance: " + '</span>' + '<br>' +
-
-                // '<span  display:block;">' +
-                // '<img class="shopImg" src="images/ico_mandatory.gif"></img>' +
-                // '</span>' +
-
-                '</div>' + '</li>'
-            );
-
-        });
-
-        $('.coffeeShops').append(coffeeShopListTemplate);
     });
 }
 
