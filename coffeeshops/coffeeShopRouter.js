@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 //make another get just for specific coffee shop (click on it in view for more info??)
 router.post('/', jsonParser, (req, res) => {
 
-  const requiredFields = ['name', 'address', 'rating', 'tags',  'photos'];
+  const requiredFields = ['name', 'address', 'rating', 'tags',  'photoURL'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -43,7 +43,10 @@ router.post('/', jsonParser, (req, res) => {
       address: req.body.address,
       rating: req.body.rating,
       tags: req.body.tags,
-      photos: req.body.photos
+      photoURL: req.body.photoURL,
+      lat: req.body.lat || null,
+      lng: req.body.lng || null,
+      description: req.body.description
     })
     .then(
     coffeeshop => res.status(201).json(coffeeshop.apiRepr())
