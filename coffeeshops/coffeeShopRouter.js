@@ -27,6 +27,7 @@ router.get('/', (req, res) => {
 //make another get just for specific coffee shop (click on it in view for more info??)
 router.post('/', jsonParser, (req, res) => {
 
+  //get the current user and his ID to post the coffee shop to?
   const requiredFields = ['name', 'address', 'rating', 'tags',  'photoURL'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];

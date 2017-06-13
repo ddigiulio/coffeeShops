@@ -8,7 +8,8 @@ const coffeeShopsSchema = mongoose.Schema({
   tags: {type: Array, required: true},
   description: {type: String},
   lat: {type: Number},
-  lng: {type: Number}
+  lng: {type: Number},
+  price: {type: Number}
 
 });
 
@@ -23,7 +24,8 @@ coffeeShopsSchema.methods.apiRepr = function() {
     photoURL: this.photoURL,
     lat: this.lat,
     lng: this.lng,
-    description: this.description
+    description: this.description,
+    price: this.price
 
     //for rating - check the format and make a virtual?
   

@@ -3,27 +3,39 @@
         
 #map {
 height: 100%;
-width: 70%;
+width: 75%;
 }
 /* Optional: Makes the sample page fill the window. */
         
-html,
-body {
+html,body {
 height: 100%;
 margin: 0;
 padding: 0;
 }
 
 #searchBox {
+    width: 300px;
+    height: 100px;
+    position: absolute;
+    display: none;
+    margin: auto;
+    top: 40%;
+    left: 28%;
+    border-style: solid;
+    z-index: 9999;
+    background-color:	#D3D3D3;
+    border-width: thin
+}
+
+#login {
     width: 200px;
-    height: 200px;
+    height: 50px;
     position: absolute;
     margin: auto;
-    top: 100px;
-    left: 100px;
-    border-style: solid;
-    z-index: 9999
+    display: block;
+    z-index: 9999;
 }
+
 #description {
 font-family: Roboto;
 font-size: 15px;
@@ -47,7 +59,7 @@ display: inline-block;
 position: absolute;
 right: 10px;
 top: 0px;
-width: 29%;
+width: 24%;
 }
 
         
@@ -116,3 +128,19 @@ width: 345px;
     font-size: 20px;
     text-align: center;
 }
+
+.search-input{
+    display: block;
+    height: 30px;
+    width: 250px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.search-start{
+    display: block;
+    margin-left: 20px;
+    height: 30px;
+    width: 256px;
+}
+

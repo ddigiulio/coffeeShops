@@ -1,136 +1,135 @@
-const {BasicStrategy} = require('passport-http');
-const express = require('express');
-const jsonParser = require('body-parser').json();
+const LocalStrategy = require('passport-local').Strategy;
+const bodyParser = require('body-parser');
 const passport = require('passport');
+const session = require('express-session');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const serveStatic = require('serve-static');
+const mongoose = require('mongoose');
+
 
 const {User} = require('./models');
 
 const router = express.Router();
 
-router.use(jsonParser);
+mongoose.Promise = global.Promise;
 
 
-// NB: at time of writing, passport uses callbacks, not promises
-const basicStrategy = new BasicStrategy((username, password, callback) => {
-  let user;
-  User
-    .findOne({username: username})
-    .exec()
-    .then(_user => {
-      user = _user;
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+
+
+
+
+ passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
       if (!user) {
-        return callback(null, false, {message: 'Incorrect username'});
+        return done(null, false, { message: 'Incorrect username.' });
       }
-      return user.validatePassword(password);
-    })
-    .then(isValid => {
-      if (!isValid) {
-        return callback(null, false, {message: 'Incorrect password'});
+      if (!user.validatePassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
       }
-      else {
-        return callback(null, user)
-      }
+      return done(null, user);
+    });
+  }
+)); 
+
+ router.use(session({
+	secret: 'keyboard cat',
+	resave: false,
+	saveUninitialized: false,
+	cookie: {}
+}));
+
+router.use(passport.initialize());
+router.use(passport.session());
+
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
+    //log in, send back to client
+});
+
+passport.deserializeUser(function (id, done) {
+    User.findById(id, function (err, user) {
+        done(err, user);
     });
 });
 
-passport.use(basicStrategy);
-passport.serializeUser(function(user, done) {
-  done(null, user.username);
-});
-router.use(passport.initialize());
+router.get('/', (req, res) => {
+	return User
+	.find()
+	.exec()
+	.then(users => {
+		return res.status(200).json(users);
+	})
+	.catch(err => {
+		res.status(500).json({message: 'Internal server'})
+	})
+})
+
+
+router.put('/', (req, res) =>{
+	User
+	.findByIdAndUpdate(
+		req.session.passport.user,
+		{$push: {savedRecipes: {label: req.body.recipe.label}}},
+		{safe: true, upsert: true, new : true},
+	 function (err, record) {
+	 	res.json({record});
+	});
+
+ });
 
 router.post('/', (req, res) => {
-  if (!req.body) {
-    return res.status(400).json({message: 'No request body'});
-  }
 
-  if (!('username' in req.body)) {
-    return res.status(422).json({message: 'Missing field: username'});
-  }
+	let {username, password, firstName, lastName} = req.body;//those 4 properties being picked out from req.body from AJAX request
 
-  let {username, password, firstName, lastName} = req.body;
+return User
+.find({username})
+.count()
+.exec()
+.then(count => {
+	if(count > 0){
+		return res.status(422).json({message: 'username already taken'});
+	}
+	return User.hashPassword(password)
+})
+	.then(hash => {
+		return User
+		.create({
+			username: username,
+			password: hash,
+			firstName: firstName,
+			lastName: lastName
+		});
 
-  if (typeof username !== 'string') {
-    return res.status(422).json({message: 'Incorrect field type: username'});
-  }
-
-  username = username.trim();
-
-  if (username === '') {
-    return res.status(422).json({message: 'Incorrect field length: username'});
-  }
-
-  if (!(password)) {
-    return res.status(422).json({message: 'Missing field: password'});
-  }
-
-  if (typeof password !== 'string') {
-    return res.status(422).json({message: 'Incorrect field type: password'});
-  }
-
-  password = password.trim();
-
-  if (password === '') {
-    return res.status(422).json({message: 'Incorrect field length: password'});
-  }
-
-  // check for existing user
-  return User
-    .find({username})
-    .count()
-    .exec()
-    .then(count => {
-      if (count > 0) {
-        return res.status(422).json({message: 'username already taken'});
-      }
-      // if no existing user, hash password
-      return User.hashPassword(password)
-    })
-    .then(hash => {
-      return User
-        .create({
-          username: username,
-          password: hash,
-          firstName: firstName,
-          lastName: lastName,
-          coffeeShops: []
-        })
-    })
-    .then(user => {
-      return res.status(201).json(user.apiRepr());
-    })
-    .catch(err => {
-      res.status(500).json({message: 'Internal server error'})
-    });
+	})
+	.then(user => {
+		return res.status(201).json(user);
+	})
+	.catch(err => {
+		res.status(500).json({message: 'Internal server error'})
+	});
 });
 
 
-router.get('/', passport.authenticate('basic', {session: true}), (req, res) => {
-  console.log(req.user.coffeeShops)
-  return User
-    .find()
-    .exec()
-    .then(users => res.json(users.map(user => user.apiRepr())))
-    // .then(res.json(req.user))
-    .catch(err => console.log(err) && res.status(500).json({message: 'Internal server error'}));
-});
 
-router.get('/me',
-  passport.authenticate('basic', {session: true}),
-  (req, res) => {
-    res.json({user: req.user.apiRepr()})}
-);
+ router.get('/existing',
+  passport.authenticate('local', { session: true }),
+  function(req, res) {
+    res.json({ id: req.user._id, username: req.user.username });
+  });
+	
 
-router.delete('/me',
-  passport.authenticate('basic', {session: true}),
-  (req, res) => {
-
-    User
-    .remove({ username: "ddigiulio"})
-    .exec()
-    .then(user => res.status(204).end())
-    .catch(err => res.status(500).json({ message: 'Internal server error' }));
-  }
-);
+ router.get('/logout', function(req, res) {
+	req.session.destroy(function (err) {
+		if(err){
+			res.send(err);
+		}
+		res.json({loggedout : true})
+  	});
+})
 
 module.exports = {router};
