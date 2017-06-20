@@ -198,7 +198,8 @@ function searchPlaces(pos, map) {
                                             }),
                                         dataType: "json",
                                         contentType: "application/json; charset=utf-8",
-                                        success: function () {
+                                        success: function (data) {
+                                         
                                             showCoffeeShops();
                                         }
                                     });
@@ -223,7 +224,6 @@ function searchPlaces(pos, map) {
 function showCoffeeShops() {
 
     var myurl = "http://localhost:8080/coffeeshops";
-
     var coffeeShopListTemplate = "";
     $('ul').empty();
     const getPromise = new Promise((resolve, reject) => {
@@ -243,13 +243,10 @@ function showCoffeeShops() {
                 '<span>' + "Description: " + coffeeShop.description + '</span>' + '<br>' +
                 '<details><summary>View Photos.</summary>' +
                 '<img src="' + coffeeShop.photoURL + '">'
-
                 + '</details>' +
-
                 '</div>' + '</li>'
             );
         });
-
         $('.coffeeShops').append(coffeeShopListTemplate);
     });
 
@@ -258,12 +255,12 @@ function getRequest(params) {
     var url = `https://maps.googleapis.com/maps/api/geocode/json?address=${params}`;
 
     $.get(url, function (results) {
-        console.log(results);
+
     });
 }
 
 function signIn(){
-    var myurl = "http://localhost:8080/users";
+    var myurl = "http://localhost:8080/users/login";
     $('button.submit').on("click", function(){
         event.preventDefault();
         //this is the better way ==> change the value of the names in the form later
@@ -279,6 +276,8 @@ function signIn(){
             ({
             "username": userName,
 			"password": password
+            // "firstName": "Danny",
+            // "lastName": "Di Giulio"
             }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",

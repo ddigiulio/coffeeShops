@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 
@@ -24,10 +23,13 @@ router.get('/', (req, res) => {
       res.status(500).json({message: 'Internal server error'})
   });
 });
+
 //make another get just for specific coffee shop (click on it in view for more info??)
 router.post('/', jsonParser, (req, res) => {
+    //get the current user and his ID to post the coffee shop to?
+  
 
-  //get the current user and his ID to post the coffee shop to?
+  let user = req.user;
   const requiredFields = ['name', 'address', 'rating', 'tags',  'photoURL'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
