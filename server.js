@@ -2,10 +2,9 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 var cors = require('cors')
-const createPassportRouter = require('./passportRouter');
+const { createPassportRouter } = require('./passportRouter');
 const {router: usersRouter} = require('./users');
 const {router: coffeeShopRouter} = require('./coffeeshops');
 
@@ -16,24 +15,18 @@ const {PORT, DATABASE_URL} = require('./config');
 const app = express();
 app.use(express.static('public'));
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-router.use(cookieParser());
-
-router.use(session({
+app.use(session({
   secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {}
+  cookie: { maxAge: 60000 }
 }));
 
 app.use(createPassportRouter());
-
-// logging
-
 app.use('/users/', usersRouter);
 app.use('/coffeeshops', coffeeShopRouter);
+
 app.use('*', function(req, res) {
   return res.status(404).json({message: 'Not Found'});
 });

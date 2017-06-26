@@ -27,7 +27,6 @@ function initAutocomplete() {
             handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
-
         handleLocationError(false, infoWindow, map.getCenter());
     }
 
@@ -43,7 +42,7 @@ function initAutocomplete() {
 
 }
 function searchPlaces(pos, map) {
-    var myurl = "http://localhost:8080/coffeeshops"; 
+    var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
     var markers = [];
     pos = new google.maps.LatLng(47.6253, -122.3222)
@@ -55,13 +54,12 @@ function searchPlaces(pos, map) {
         //listen for updated location if user puts it 
         //later if this value isnt empty, convert it to an actual LATLNG OR return error and use current position
         var locationTemp = $(".search-input").val();
-        console.log(locationTemp);
+        // console.log(locationTemp);
         //geocoding bro
-        if(locationTemp != "")
-        {
+        if (locationTemp != "") {
             getRequest(locationTemp);
         }
-       
+
         //start a new search based on input but for right now use hardcoded location
         var service = new google.maps.places.PlacesService(map);
 
@@ -173,8 +171,7 @@ function searchPlaces(pos, map) {
 
                                     var tags = $('#userInput').serializeArray()[0].value.split(',');
                                     var description = $('#userInput').serializeArray()[1].value;
-                                    console.log(tags);
-                                    console.log(description);
+
                                     if (currentShop.photos !== undefined) {
                                         photo = currentShop.photos[0].getUrl({ 'maxWidth': 100, 'maxHeight': 100 });
                                     }
@@ -199,8 +196,22 @@ function searchPlaces(pos, map) {
                                         dataType: "json",
                                         contentType: "application/json; charset=utf-8",
                                         success: function (data) {
-                                         
-                                            showCoffeeShops();
+                                            console.log(data.id);
+                                            jQuery.ajax({
+                                                url: "http://localhost:8080/users",
+                                                type: "PUT",
+                                                data: JSON.stringify
+                                                    ({
+                                                        coffeeshop: data.id
+                                                    }),
+                                                dataType: "json",
+                                                contentType: "application/json; charset=utf-8",
+                                                success: function (data) {
+                                                   console.log(data);
+                                                }
+                                            });
+
+                                        showCoffeeShops();
                                         }
                                     });
                                 });
@@ -231,7 +242,7 @@ function showCoffeeShops() {
             resolve(coffeeShops);
         });
     }).then(coffeeShops => {
-
+        
         coffeeShops.forEach(function (coffeeShop) {
             //how to do distance??? pass in address to another function, get distance from location and display?
             //to work on
@@ -259,34 +270,62 @@ function getRequest(params) {
     });
 }
 
-function signIn(){
+function signIn() {
     var myurl = "http://localhost:8080/users/login";
-    $('button.submit').on("click", function(){
+    $('button.submit').on("click", function () {
         event.preventDefault();
         //this is the better way ==> change the value of the names in the form later
         //$.post( "test.php", $( "#testform" ).serialize() );
-       var userName= $("form").serializeArray()[0].value;
-       var password = $("form").serializeArray()[1].value;
-       console.log("Username is: " + userName + " Password is: " + password);
+        var userName = $("form").serializeArray()[0].value;
+        var password = $("form").serializeArray()[1].value;
+        console.log("Username is: " + userName + " Password is: " + password);
 
         jQuery.ajax({
-          url: myurl,
+            url: myurl,
             type: "POST",
             data: JSON.stringify
-            ({
-            "username": userName,
-			"password": password
-            // "firstName": "Danny",
-            // "lastName": "Di Giulio"
-            }),
+                ({
+                    "username": userName,
+                    "password": password
+                    // "firstName": "Danny",
+                    // "lastName": "Di Giulio"
+                }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-            console.log(data);                                   
+                console.log(data);
+                showCoffeeShops();
             }
         });
     });
 }
 
+function testMe() {
+    var myurl = "http://localhost:8080/users/existing";
+    $('button.testMe').on("click", function () {
+        event.preventDefault();
+        //this is the better way ==> change the value of the names in the form later
+        //$.post( "test.php", $( "#testform" ).serialize() );
+
+
+        jQuery.ajax({
+            url: myurl,
+            type: "GET",
+            data: JSON.stringify
+                ({
+                    // "username": userName,
+                    // "password": password
+                    // "firstName": "Danny",
+                    // "lastName": "Di Giulio"
+                }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+}
+$(showCoffeeShops)
+$(testMe)
 $(signIn);
-$(showCoffeeShops);

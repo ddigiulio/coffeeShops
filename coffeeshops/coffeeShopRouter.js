@@ -1,60 +1,83 @@
 const express = require('express');
 const router = express.Router();
-
+const passport = require('passport');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+var mongoose = require('mongoose');
 router.use(jsonParser);
 
-const {coffeeShops } = require('./models');
+const { coffeeShops } = require('./models');
 
-var testArray = ["590a1c76eae05e83cbc5ce4c","590a1c76eae05e83cbc5ce4d", "590a1c76eae05e83cbc5ce4e"]
+console.log( mongoose.Types.ObjectId('578df3efb618f5141202a196') );
+
+var testArray = ["594d50c75eab5c529c61eb6d", "594d545e6e55935536aff3b8", "594d54626e55935536aff3b9"]
+
+var testArrayConvert = testArray.map(function(element){
+  console.log("element is:" + element);
+  var newId = new mongoose.Types.ObjectId(element);
+  console.log("new element is: " + newId);
+  return newId;
+});
+
+testArrayConvert.forEach(function(element){
+  console.log(typeof element);
+})
+
 //get all for the user USE IN testARray find again
 //change for all users once users are implemented on front end
 router.get('/', (req, res) => {
+  console.log("AT THE GET")
+  // console.log(req.user.coffeeShops);
   coffeeShops
-    .find()
+    .find({_id : {"$in": testArrayConvert}})
     .exec()
     .then(coffeeShops => {
-       coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
+      coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
       res.json(coffeeShops);
     })
-     .catch(err => {
-    console.error(err);
-      res.status(500).json({message: 'Internal server error'})
-  });
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal server error' })
+    });
 });
 
 //make another get just for specific coffee shop (click on it in view for more info??)
-router.post('/', jsonParser, (req, res) => {
+router.post('/', jsonParser,
+  //passport.authenticate('local'), 
+  (req, res) => {
+
     //get the current user and his ID to post the coffee shop to?
-  
 
-  let user = req.user;
-  const requiredFields = ['name', 'address', 'rating', 'tags',  'photoURL'];
-  for (let i = 0; i < requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`
-      console.error(message);
-      return res.status(400).send(message);
+    let user = req.user;
+    const requiredFields = ['name', 'address', 'rating', 'tags', 'photoURL'];
+    for (let i = 0; i < requiredFields.length; i++) {
+      const field = requiredFields[i];
+      if (!(field in req.body)) {
+        const message = `Missing \`${field}\` in request body`
+        console.error(message);
+        return res.status(400).send(message);
+      }
     }
-  }
 
-  coffeeShops
-    .create({
-      name: req.body.name,
-      address: req.body.address,
-      rating: req.body.rating,
-      tags: req.body.tags,
-      photoURL: req.body.photoURL,
-      lat: req.body.lat || null,
-      lng: req.body.lng || null,
-      description: req.body.description
-    })
-    .then(
-    coffeeshop => res.status(201).json(coffeeshop.apiRepr())
-    )
-});
+    coffeeShops
+      .create({
+        name: req.body.name,
+        address: req.body.address,
+        rating: req.body.rating,
+        tags: req.body.tags,
+        photoURL: req.body.photoURL,
+        lat: req.body.lat || null,
+        lng: req.body.lng || null,
+        description: req.body.description
+      })
+      .then(
+      function (coffeeshop) {
+        res.status(201).json(coffeeshop.apiRepr());
+        // req.user.coffeeShops.push(coffeeshop._id);
+        // console.log(req.user.coffeeShops);
+
+      });
+  });
 
 router.delete('/:id', (req, res) => {
   coffeeShops

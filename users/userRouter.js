@@ -1,9 +1,10 @@
-
+const passport = require('passport');
 const bodyParser = require('body-parser');
 const express = require('express');
 const serveStatic = require('serve-static');
 const mongoose = require('mongoose');
 const { User } = require('./models');
+
 
 
 const router = express.Router();
@@ -24,14 +25,14 @@ router.get('/', (req, res) => {
 })
 
 router.put('/', (req, res) => {
-  // User
-  //   .findByIdAndUpdate(
-  //   req.session.passport.user,
-  //   { $push: { savedRecipes: { label: req.body.recipe.label } } },
-  //   { safe: true, upsert: true, new: true },
-  //   function (err, record) {
-  //     res.json({ record });
-  //   });
+  User
+    .findByIdAndUpdate(
+    req.session.passport.user,
+    { $push: { coffeeShops: req.body.coffeeshop}},
+    { safe: true, upsert: true, new: true },
+    function (err, record) {
+      res.json({ record });
+    });
 
 });
 
@@ -66,31 +67,36 @@ router.post('/', (req, res) => {
     });
 });
 
-router.post('/login', function(req, res, next) {
-  passport.authenticate('local', function(err, user, info) {
-  
+router.post('/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {
+
     if (err) {
       return next(err); // will generate a 500 error
     }
     // Generate a JSON response reflecting authentication status
-    if (! user) {
-      return res.send(401,{ success : false, message : 'authentication failed' });
+    if (!user) {
+      return res.send(401, { success: false, message: 'authentication failed' });
     }
-    req.login(user, function(err){
-      if(err){
+    req.login(user, function (err) {
+      if (err) {
         return next(err);
       }
-      return res.send({ success : true, message : 'authentication succeeded' });        
+      console.log(req.user);
+      return res.send({ success: true, message: 'authentication succeeded' });
     });
   })(req, res, next);
 });
 
 
 router.get('/existing',
-  passport.authenticate('local', { session: true }),
+  // passport.authenticate('local'),
   function (req, res) {
-    res.json({ id: req.user._id, username: req.user.username });
+    // passport.authenticate('local', function (err, user, info) {
+      // debugger;
+    // });
   });
+
+
 router.get('/logout', function (req, res) {
   req.session.destroy(function (err) {
     if (err) {
