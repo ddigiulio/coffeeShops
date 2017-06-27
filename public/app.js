@@ -196,22 +196,22 @@ function searchPlaces(pos, map) {
                                         dataType: "json",
                                         contentType: "application/json; charset=utf-8",
                                         success: function (data) {
-                                            console.log(data.id);
-                                            jQuery.ajax({
-                                                url: "http://localhost:8080/users",
-                                                type: "PUT",
-                                                data: JSON.stringify
-                                                    ({
-                                                        coffeeshop: data.id
-                                                    }),
-                                                dataType: "json",
-                                                contentType: "application/json; charset=utf-8",
-                                                success: function (data) {
-                                                   console.log(data);
-                                                }
-                                            });
+                                            console.log(data.name);
+                                            // jQuery.ajax({
+                                            //     url: "http://localhost:8080/users",
+                                            //     type: "PUT",
+                                            //     data: JSON.stringify
+                                            //         ({
+                                            //             coffeeshop: data.name
+                                            //         }),
+                                            //     dataType: "json",
+                                            //     contentType: "application/json; charset=utf-8",
+                                            //     success: function (data) {
+                                            //         //    console.log(data);
+                                            //     }
+                                            // });
 
-                                        showCoffeeShops();
+                                            // showCoffeeShops();
                                         }
                                     });
                                 });
@@ -242,7 +242,7 @@ function showCoffeeShops() {
             resolve(coffeeShops);
         });
     }).then(coffeeShops => {
-        
+
         coffeeShops.forEach(function (coffeeShop) {
             //how to do distance??? pass in address to another function, get distance from location and display?
             //to work on
@@ -262,20 +262,12 @@ function showCoffeeShops() {
     });
 
 }
-function getRequest(params) {
-    var url = `https://maps.googleapis.com/maps/api/geocode/json?address=${params}`;
 
-    $.get(url, function (results) {
-
-    });
-}
-
-function signIn() {
-    var myurl = "http://localhost:8080/users/login";
-    $('button.submit').on("click", function () {
+function signUpHandler() {
+    var myurl = "http://localhost:8080/users/";
+    $('button.signUp').on("click", function () {
         event.preventDefault();
-        //this is the better way ==> change the value of the names in the form later
-        //$.post( "test.php", $( "#testform" ).serialize() );
+
         var userName = $("form").serializeArray()[0].value;
         var password = $("form").serializeArray()[1].value;
         console.log("Username is: " + userName + " Password is: " + password);
@@ -287,45 +279,50 @@ function signIn() {
                 ({
                     "username": userName,
                     "password": password
-                    // "firstName": "Danny",
-                    // "lastName": "Di Giulio"
                 }),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                console.log(data);
-                showCoffeeShops();
+                console.log(data.username);
+                console.log(data.password);
+                logIn(data.username, data.password)
             }
         });
     });
 }
 
-function testMe() {
-    var myurl = "http://localhost:8080/users/existing";
-    $('button.testMe').on("click", function () {
+function logInHandler() {
+
+    $('button.logIn').on("click", function () {
         event.preventDefault();
-        //this is the better way ==> change the value of the names in the form later
-        //$.post( "test.php", $( "#testform" ).serialize() );
-
-
-        jQuery.ajax({
-            url: myurl,
-            type: "GET",
-            data: JSON.stringify
-                ({
-                    // "username": userName,
-                    // "password": password
-                    // "firstName": "Danny",
-                    // "lastName": "Di Giulio"
-                }),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                console.log(data);
-            }
-        });
+        var userName = $("form").serializeArray()[0].value;
+        var password = $("form").serializeArray()[1].value;
+        logIn(userName, password);
     });
 }
-$(showCoffeeShops)
-$(testMe)
-$(signIn);
+
+function logIn(userName, password) {
+    var myurl = "http://localhost:8080/users/login";
+
+    console.log("Username is: " + userName + " Password is: " + password);
+
+    jQuery.ajax({
+        url: myurl,
+        type: "POST",
+        data: JSON.stringify
+            ({
+                "username": userName,
+                "password": password
+
+            }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            console.log(data);
+            showCoffeeShops();
+        }
+    });
+}
+$(signUpHandler);
+$(logInHandler);
+

@@ -8,30 +8,18 @@ router.use(jsonParser);
 
 const { coffeeShops } = require('./models');
 
-console.log( mongoose.Types.ObjectId('578df3efb618f5141202a196') );
 
-var testArray = ["594d50c75eab5c529c61eb6d", "594d545e6e55935536aff3b8", "594d54626e55935536aff3b9"]
-
-var testArrayConvert = testArray.map(function(element){
-  console.log("element is:" + element);
-  var newId = new mongoose.Types.ObjectId(element);
-  console.log("new element is: " + newId);
-  return newId;
-});
-
-testArrayConvert.forEach(function(element){
-  console.log(typeof element);
-})
 
 //get all for the user USE IN testARray find again
 //change for all users once users are implemented on front end
 router.get('/', (req, res) => {
-  console.log("AT THE GET")
-  // console.log(req.user.coffeeShops);
+  // console.log(req.user.coffeeShops)
   coffeeShops
-    .find({_id : {"$in": testArrayConvert}})
+    .find()
     .exec()
     .then(coffeeShops => {
+      console.log("coffeeshops is:" + coffeeShops);
+      console.log("HERE");
       coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
       res.json(coffeeShops);
     })

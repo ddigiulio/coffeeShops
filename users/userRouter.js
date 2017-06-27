@@ -81,7 +81,7 @@ router.post('/login', function (req, res, next) {
       if (err) {
         return next(err);
       }
-      console.log(req.user);
+ 
       return res.send({ success: true, message: 'authentication succeeded' });
     });
   })(req, res, next);
@@ -105,5 +105,13 @@ router.get('/logout', function (req, res) {
     res.json({ loggedout: true })
   });
 })
+
+router.delete('/deleteAll', (req, res) => {
+  User
+    .remove()
+    .exec()
+    .then(coffeeshop => res.status(204).end())
+    .catch(err => res.status(500).json({ message: 'Internal server error' }));
+});
 
 module.exports = { router };
