@@ -4,8 +4,9 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Places Searchbox</title>
+    <title>CoffeeShops</title>
     <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="app.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvGl4j8OHDoeMFigPAwND28e_Ki-0SlFg&libraries=places&callback=initAutocomplete"
@@ -13,18 +14,19 @@
 </head>
 <body>
     <div id="searchBox">
-        <form>
-            <input type="text" class="search-input" placeholder="Current Location">
-        </form>
-        <button class="search-start">Find Coffeeshops!</button>
+        <form  class="search-wrapper cf">
+        <input type="text" class="search-input" placeholder="Here or any address" required="">
+        <button type="submit" class="search-start">Search</button>
+    </form>
     </div>
     <div id="login">
-        <form>
-            <input type="text" placeholder="Enter Username" name="uname" required>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+        <form autocomplete="off">
+            <input type="text" class="logIns" placeholder="Enter Username" name="uname" required>
+            <input type="password" class="logIns" placeholder="Enter Password" name="psw"  required>
         </form>
-        <button class="signUp">Sign Up!</button>
-        <button class="logIn">Log In!</button>
+        <button class="signUp logIns loginBtn">Sign Up!</button>
+        <button class="logIn logIns loginBtn">Log In!</button>
+        <button class="logOut loginBtn">Log Out!</button>
     </div>
     <div id="map">
     </div>

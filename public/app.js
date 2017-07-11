@@ -1,12 +1,15 @@
 function initAutocomplete() {
-
+    $(".logOut").hide();
     var testPosition = new google.maps.LatLng(47.6253, -122.3222)
     var map = new google.maps.Map(document.getElementById('map'), {
         center: testPosition,
         zoom: 14,
-        mapTypeId: 'roadmap'
+        mapTypeId: 'roadmap',
+        mapTypeControlOptions: {
+          position: google.maps.ControlPosition.TOP_RIGHT
+    }
     });
-    searchPlaces(testPosition, map);
+    // searchPlaces(testPosition, map);
 
     var infoWindow = new google.maps.InfoWindow;
     if (navigator.geolocation) {
@@ -19,7 +22,6 @@ function initAutocomplete() {
             infoWindow.setPosition(pos);
             map.setCenter(pos);
             pos = new google.maps.LatLng(pos.lat, pos.lng);
-            console.log("current pos: " + pos);
             $("#searchBox").css("display", "block");
             //cache this position in local storage
             searchPlaces(pos, map);
@@ -37,37 +39,54 @@ function initAutocomplete() {
             'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
     }
-
-    console.log("test pos: " + testPosition);
-
 }
 function searchPlaces(pos, map) {
+
     var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
     var markers = [];
-    pos = new google.maps.LatLng(47.6253, -122.3222)
+    pos = pos;
     $('button.search-start').on('click', function () {
         event.preventDefault();
         $("#searchBox").hide();
-        //will have to define and return position FIRST from current position API and not allow search until that is created
-
-        //listen for updated location if user puts it 
-        //later if this value isnt empty, convert it to an actual LATLNG OR return error and use current position
+        
         var locationTemp = $(".search-input").val();
-        // console.log(locationTemp);
-        //geocoding bro
-        if (locationTemp != "") {
-            getRequest(locationTemp);
-        }
 
+
+        // new Promise(function(resolve, reject) {
+        //     if(!locationTemp) {
+        //         resolve();
+        //     }
+        //     else({
+        //         getRequest(locationTemp)
+
+        //     })    
+
+
+
+            // do your async stuff, and then resolve it
+        // }).then(function(){
+
+        // });
+        
+    
+        // if (locationTemp != "") {
+        //     var promise = new Promise(function (resolve, reject){
+        //         getRequest(locationTemp);
+        //     }, callback);
+        //     function callback(results){
+        //         if(results){
+        //             resolve(results);
+        //         } 
+        //     }
+        // }
+        // console.log(pos);
         //start a new search based on input but for right now use hardcoded location
         var service = new google.maps.places.PlacesService(map);
-
         var promise = new Promise(function (resolve, reject) {
-
             service.nearbySearch({
                 location: pos,
-                radius: '800',
+                radius: '1000',
                 types: ['cafe']
             }, callback);
 
@@ -77,6 +96,7 @@ function searchPlaces(pos, map) {
                     resolve(results);
                 }
                 else {
+                    console.log("No coffeeshops nearby!")
                     reject();
                 }
             }
@@ -131,6 +151,7 @@ function searchPlaces(pos, map) {
                     }));
 
                     google.maps.event.addListener(markers[i], 'click', function () {
+                        
                         this.setClickable(false);
                         var status;
                         prevMarkers.forEach(function (markerIndex, j) {
@@ -176,7 +197,7 @@ function searchPlaces(pos, map) {
                                         photo = currentShop.photos[0].getUrl({ 'maxWidth': 100, 'maxHeight': 100 });
                                     }
                                     else photo = "";
-
+                                    
                                     jQuery.ajax({
                                         url: myurl,
                                         type: "POST",
@@ -196,22 +217,21 @@ function searchPlaces(pos, map) {
                                         dataType: "json",
                                         contentType: "application/json; charset=utf-8",
                                         success: function (data) {
-                                            console.log(data.name);
-                                            // jQuery.ajax({
-                                            //     url: "http://localhost:8080/users",
-                                            //     type: "PUT",
-                                            //     data: JSON.stringify
-                                            //         ({
-                                            //             coffeeshop: data.name
-                                            //         }),
-                                            //     dataType: "json",
-                                            //     contentType: "application/json; charset=utf-8",
-                                            //     success: function (data) {
-                                            //         //    console.log(data);
-                                            //     }
-                                            // });
-
-                                            // showCoffeeShops();
+                                          
+                                            jQuery.ajax({
+                                                url: "http://localhost:8080/users",
+                                                type: "PUT",
+                                                data: JSON.stringify
+                                                    ({
+                                                        coffeeshop: data.address
+                                                    }),
+                                                dataType: "json",
+                                                contentType: "application/json; charset=utf-8",
+                                                success: function (data) {
+                                                    
+                                                    showCoffeeShops();
+                                                }
+                                            });
                                         }
                                     });
                                 });
@@ -247,15 +267,15 @@ function showCoffeeShops() {
             //how to do distance??? pass in address to another function, get distance from location and display?
             //to work on
             coffeeShopListTemplate += (
-                '<li>' + '<div class="coffeeShop">' +
+                '<li>' + 
+                // '<div class="clearfix>' +
+                '<div class="coffeeShop">' +
+                '<img class="coffeePic" src="' + coffeeShop.photoURL + '">' +
                 '<h3 class="name">' + coffeeShop.name + '</h3>'
                 + '<span>' + "Rating: " + coffeeShop.rating + '</span>' + '<br>' +
                 '<span>' + "Tags: " + coffeeShop.tags + '</span>' + '<br>' +
                 '<span>' + "Description: " + coffeeShop.description + '</span>' + '<br>' +
-                '<details><summary>View Photos.</summary>' +
-                '<img src="' + coffeeShop.photoURL + '">'
-                + '</details>' +
-                '</div>' + '</li>'
+                '</div>' +'</li>'
             );
         });
         $('.coffeeShops').append(coffeeShopListTemplate);
@@ -270,7 +290,6 @@ function signUpHandler() {
 
         var userName = $("form").serializeArray()[0].value;
         var password = $("form").serializeArray()[1].value;
-        console.log("Username is: " + userName + " Password is: " + password);
 
         jQuery.ajax({
             url: myurl,
@@ -283,8 +302,7 @@ function signUpHandler() {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                console.log(data.username);
-                console.log(data.password);
+                console.log(userName + " successfully signed up!")
                 logIn(data.username, data.password)
             }
         });
@@ -292,20 +310,30 @@ function signUpHandler() {
 }
 
 function logInHandler() {
-
     $('button.logIn').on("click", function () {
         event.preventDefault();
+
         var userName = $("form").serializeArray()[0].value;
         var password = $("form").serializeArray()[1].value;
         logIn(userName, password);
     });
 }
 
+function logOutHandler() {
+    $('button.logOut').on("click", function(){
+         event.preventDefault();
+         var myurl = "http://localhost:8080/users/logout";
+          $.get(myurl, function (data) {
+            $('button.logOut').hide();
+            $('.logIns').show();
+            $('#map').width('100%');
+            showCoffeeShops();
+        });
+    });
+}
+
 function logIn(userName, password) {
     var myurl = "http://localhost:8080/users/login";
-
-    console.log("Username is: " + userName + " Password is: " + password);
-
     jQuery.ajax({
         url: myurl,
         type: "POST",
@@ -313,16 +341,33 @@ function logIn(userName, password) {
             ({
                 "username": userName,
                 "password": password
-
             }),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            console.log(data);
+            $('form')[0].reset();
+            $(".logIns").hide();
+            $(".logOut").show();
+            $('#map').width('75%');
+            $('#searchBox').css('left', '30%');
             showCoffeeShops();
+        }
+    });
+}
+
+function getRequest(address){
+    console.log(address);
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'address': address}, function(results, status){
+        if(status == 'OK'){
+            return results[0].geometry.location;
+        }
+        else {
+            alert("Geocode was not successful for the following reason: " + status)
         }
     });
 }
 $(signUpHandler);
 $(logInHandler);
+$(logOutHandler);
 

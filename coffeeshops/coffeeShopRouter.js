@@ -13,13 +13,11 @@ const { coffeeShops } = require('./models');
 //get all for the user USE IN testARray find again
 //change for all users once users are implemented on front end
 router.get('/', (req, res) => {
-  // console.log(req.user.coffeeShops)
   coffeeShops
-    .find()
+    .find({ "address": { "$in": req.user.coffeeShops } })
     .exec()
     .then(coffeeShops => {
-      console.log("coffeeshops is:" + coffeeShops);
-      console.log("HERE");
+      // console.log(coffeeShops);
       coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
       res.json(coffeeShops);
     })
@@ -37,34 +35,38 @@ router.post('/', jsonParser,
     //get the current user and his ID to post the coffee shop to?
 
     let user = req.user;
-    const requiredFields = ['name', 'address', 'rating', 'tags', 'photoURL'];
-    for (let i = 0; i < requiredFields.length; i++) {
-      const field = requiredFields[i];
-      if (!(field in req.body)) {
-        const message = `Missing \`${field}\` in request body`
-        console.error(message);
-        return res.status(400).send(message);
+    if (!user.coffeeShops.includes(req.body.address)) {
+      const requiredFields = ['name', 'address', 'rating', 'tags', 'photoURL'];
+      for (let i = 0; i < requiredFields.length; i++) {
+        const field = requiredFields[i];
+        if (!(field in req.body)) {
+          const message = `Missing \`${field}\` in request body`
+          console.error(message);
+          return res.status(400).send(message);
+        }
       }
+      
+      coffeeShops
+        .create({
+          name: req.body.name,
+          address: req.body.address,
+          rating: req.body.rating,
+          tags: req.body.tags,
+          photoURL: req.body.photoURL,
+          lat: req.body.lat || null,
+          lng: req.body.lng || null,
+          description: req.body.description
+        })
+        .then(
+        function (coffeeshop) {
+          res.status(201).json(coffeeshop.apiRepr());
+        });
     }
 
-    coffeeShops
-      .create({
-        name: req.body.name,
-        address: req.body.address,
-        rating: req.body.rating,
-        tags: req.body.tags,
-        photoURL: req.body.photoURL,
-        lat: req.body.lat || null,
-        lng: req.body.lng || null,
-        description: req.body.description
-      })
-      .then(
-      function (coffeeshop) {
-        res.status(201).json(coffeeshop.apiRepr());
-        // req.user.coffeeShops.push(coffeeshop._id);
-        // console.log(req.user.coffeeShops);
+    else {
+      return res.status(400).send("Coffeeshop already exists")
+    }
 
-      });
   });
 
 router.delete('/:id', (req, res) => {

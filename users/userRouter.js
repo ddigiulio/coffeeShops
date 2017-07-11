@@ -25,9 +25,11 @@ router.get('/', (req, res) => {
 })
 
 router.put('/', (req, res) => {
+
+  var id = new mongoose.Types.ObjectId(req.user._id) 
   User
     .findByIdAndUpdate(
-    req.session.passport.user,
+    id,
     { $push: { coffeeShops: req.body.coffeeshop}},
     { safe: true, upsert: true, new: true },
     function (err, record) {
