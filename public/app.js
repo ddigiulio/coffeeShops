@@ -1,3 +1,4 @@
+var currentCoffeeShops = [];
 function initAutocomplete() {
     $(".logOut").hide();
     var testPosition = new google.maps.LatLng(47.6253, -122.3222)
@@ -6,8 +7,127 @@ function initAutocomplete() {
         zoom: 14,
         mapTypeId: 'roadmap',
         mapTypeControlOptions: {
-          position: google.maps.ControlPosition.TOP_RIGHT
+          position: google.maps.ControlPosition.TOP_RIGHT,
+    },
+        styles: [
+    {
+        "featureType": "administrative",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            },
+            {
+                "hue": "#0066ff"
+            },
+            {
+                "saturation": 74
+            },
+            {
+                "lightness": 100
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            },
+            {
+                "weight": 0.6
+            },
+            {
+                "saturation": -85
+            },
+            {
+                "lightness": 61
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            },
+            {
+                "color": "#5f94ff"
+            },
+            {
+                "lightness": 26
+            },
+            {
+                "gamma": 5.86
+            }
+        ]
     }
+]
     });
     // searchPlaces(testPosition, map);
 
@@ -50,9 +170,7 @@ function searchPlaces(pos, map) {
         event.preventDefault();
         $("#searchBox").hide();
         
-        var locationTemp = $(".search-input").val();
-
-
+        // var locationTemp = $(".search-input").val();
         // new Promise(function(resolve, reject) {
         //     if(!locationTemp) {
         //         resolve();
@@ -61,9 +179,6 @@ function searchPlaces(pos, map) {
         //         getRequest(locationTemp)
 
         //     })    
-
-
-
             // do your async stuff, and then resolve it
         // }).then(function(){
 
@@ -82,6 +197,7 @@ function searchPlaces(pos, map) {
         // }
         // console.log(pos);
         //start a new search based on input but for right now use hardcoded location
+        
         var service = new google.maps.places.PlacesService(map);
         var promise = new Promise(function (resolve, reject) {
             service.nearbySearch({
@@ -106,7 +222,7 @@ function searchPlaces(pos, map) {
                 if (places.length == 0) {
                     return;
                 }
-
+                // console.log(places);
                 markers.forEach(function (marker) {
                     marker.setMap(null);
                 });
@@ -163,11 +279,12 @@ function searchPlaces(pos, map) {
                         })
 
                         var infowindow = this.infowindow;
+                        infowindow.maxWidth = 200;
                         prevMarkers.push(i);
                         var currentShop = places[markers[i].placeRef];
 
                         if (currentShop.price_level == undefined) {
-                            currentShop.price_level = "Not Available";
+                            currentShop.price_level = 100;
                         }
 
                         if (currentShop.opening_hours) {
@@ -179,10 +296,10 @@ function searchPlaces(pos, map) {
                             }
                         }
 
-                        infowindow.setContent('<div><strong>' + currentShop.name + '</strong><br>' +
+                        infowindow.setContent( currentShop.name + '<br>' +
                             'Address: ' + currentShop.vicinity + '<br>' + 'Rating: ' + currentShop.rating + '<br>' +
-                            'Price Level: ' + currentShop.price_level + '<br>' + status + '<br>' + '</div>' +
-                            ' ' + 'Add tags (separated by commas): <form id="userInput"><input type="text" size="60" maxlength="40" name="tags">' + '<br>' + 'Add a description:' + '<br>' + '<input type="text" size="60" maxlength="100" name="description">' + '</form>' +
+                            'Price Level: ' + currentShop.price_level + '<br>' + status + '<br>'  +
+                             '<form id="userInput">' + '<br>' + 'Add a description:' + '<br>' + '<input type="text" size="60" maxlength="100" name="description">' + '</form>' +
                             '<button class="save">Save Coffeeshop</button>');
                         infowindow.open(map, this);
 
@@ -190,9 +307,12 @@ function searchPlaces(pos, map) {
                             infowindow.addListener('domready', () => {
                                 $('button.save').on('click', function () {
 
-                                    var tags = $('#userInput').serializeArray()[0].value.split(',');
-                                    var description = $('#userInput').serializeArray()[1].value;
-
+                                    var description = $('#userInput').serializeArray()[0].value;
+                                    if (description === "")
+                                    {
+                                        description = "~~~~~!@@!~~~~~"
+                                    }
+                                  
                                     if (currentShop.photos !== undefined) {
                                         photo = currentShop.photos[0].getUrl({ 'maxWidth': 100, 'maxHeight': 100 });
                                     }
@@ -205,8 +325,7 @@ function searchPlaces(pos, map) {
                                             ({
                                                 name: currentShop.name,
                                                 address: currentShop.vicinity,
-                                                rating: currentShop.rating,
-                                                tags: tags,
+                                                rating: currentShop.rating,                                             
                                                 photoURL: photo || "",
                                                 lat: currentShop.geometry.location.lat(),
                                                 lng: currentShop.geometry.location.lng(),
@@ -256,29 +375,26 @@ function showCoffeeShops() {
 
     var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
-    $('ul').empty();
+    $('ol').empty();
     const getPromise = new Promise((resolve, reject) => {
         $.get(myurl, function (coffeeShops) {
             resolve(coffeeShops);
         });
     }).then(coffeeShops => {
-
-        coffeeShops.forEach(function (coffeeShop) {
+        currentCoffeeShops = coffeeShops;
+        
+        coffeeShops.forEach(function (coffeeShop, i) {
             //how to do distance??? pass in address to another function, get distance from location and display?
             //to work on
             coffeeShopListTemplate += (
-                '<li>' + 
-                // '<div class="clearfix>' +
+                '<li class="hvr-grow hvr-bubble-top" value="'+ i + '">' + 
                 '<div class="coffeeShop">' +
-                '<img class="coffeePic" src="' + coffeeShop.photoURL + '">' +
-                '<h3 class="name">' + coffeeShop.name + '</h3>'
-                + '<span>' + "Rating: " + coffeeShop.rating + '</span>' + '<br>' +
-                '<span>' + "Tags: " + coffeeShop.tags + '</span>' + '<br>' +
-                '<span>' + "Description: " + coffeeShop.description + '</span>' + '<br>' +
+                '<h3 class="name">' + coffeeShop.name + '</h3>' +
                 '</div>' +'</li>'
             );
         });
         $('.coffeeShops').append(coffeeShopListTemplate);
+        // console.log(currentCoffeeShops)
     });
 
 }
@@ -302,7 +418,7 @@ function signUpHandler() {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                console.log(userName + " successfully signed up!")
+
                 logIn(data.username, data.password)
             }
         });
@@ -316,6 +432,7 @@ function logInHandler() {
         var userName = $("form").serializeArray()[0].value;
         var password = $("form").serializeArray()[1].value;
         logIn(userName, password);
+
     });
 }
 
@@ -326,8 +443,9 @@ function logOutHandler() {
           $.get(myurl, function (data) {
             $('button.logOut').hide();
             $('.logIns').show();
-            $('#map').width('100%');
-            showCoffeeShops();
+            // $('#map').width('100%');
+            $('.coffeeShops').empty();
+       
         });
     });
 }
@@ -348,10 +466,56 @@ function logIn(userName, password) {
             $('form')[0].reset();
             $(".logIns").hide();
             $(".logOut").show();
-            $('#map').width('75%');
-            $('#searchBox').css('left', '30%');
+            // $('#map').width('75%');
+            currentCoffeeShops = [];
             showCoffeeShops();
         }
+    });
+}
+
+function hoverHandler(){
+    $('.coffeeShops').on("click", "li", function(event){
+        event.preventDefault();
+        $('#tempBox').empty();
+        var currentShop =($(this).attr("value"));
+        var bottomPosition = 80;
+        console.log(bottomPosition);
+        var leftPosition = ($(this).position().left)-25;
+        // console.log(position);
+        var coffeeShop = currentCoffeeShops[currentShop];
+        
+        var template = "";
+        template =  (                         
+                '<h3 class="name">' + coffeeShop.name + '</h3>'
+                + '<span class="hoverText">' + "Rating: " + '</span>'
+            );
+        
+        var rating = Math.round(coffeeShop.rating);
+        for (var i=0; i < rating; i++){
+            template+= '<img src="bean.jpg" height="12" width="12">';
+            
+        }
+        template+="<br>";
+       
+        if (coffeeShop.price != 100){
+
+            var priceString = "";
+            console.log("here");
+            for(var i = 0; i < coffeeShop.price; i++ )
+            {
+                priceString += "$";
+            }
+            template += '<span class="hoverText">' + "Price: "  + '</span>' + '<span class="priceText">' +  priceString+ '</span>' + '<br>'
+  
+        }
+        if (coffeeShop.description !== "~~~~~!@@!~~~~~")
+        {
+            template += '<span class="hoverText">' + "Description: " + coffeeShop.description + '</span>'; 
+        }
+      
+        $('#tempBox').append(template);
+        $('#tempBox').css({'bottom' : bottomPosition , 'left' : leftPosition} );
+        $('#tempBox').removeClass("hidden");
     });
 }
 
@@ -370,4 +534,5 @@ function getRequest(address){
 $(signUpHandler);
 $(logInHandler);
 $(logOutHandler);
+$(hoverHandler);
 

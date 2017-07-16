@@ -18,27 +18,33 @@ width: 100%;
 html,body {
 height: 100%;
 margin: 0;
-padding: 0;
-background: #eacda3;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to bottom, #d6ae7b, #eacda3);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to bottom, #d6ae7b, #eacda3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
+padding: 0;  /* fallback for old browsers */
 
 }
 #searchBox {
-    /*width: 300px;
-    height: 100px;*/
+    width: 300px;
+    height: 180px;
     position: absolute;
-    display: none;
+    /*display: none;*/
     top: 40%;
     left: 40%;
     /*border-style: solid;*/
+    border-radius: 2px;
+    border-color: #93BFB5;
     z-index: 9999;
-    /*background-color:	#D3D3D3;*/
+    /*background-image: url("coffee.jpg");*/
     border-width: thin
 }
 
+.hidden {
+    display: none;
+}
+ 
+.coffeePic{
+    position: relative;
+    max-width:100%;
+max-height:100%;
+}
 #login {
     width: 200px;
     height: 100px;
@@ -72,13 +78,23 @@ input.logIns{
   text-decoration: none;
 }
 
-#test {
-    width: 200px;
-    height: 50px;
-    position: absolute;
-    margin: 100px;
-    display: block;
-    z-index: 9999;
+#tempBox {
+
+position: absolute;
+height: 300;
+width: auto;
+padding: 5px;
+z-index: 9999;
+border-style: solid;
+border-color: #A47D2C;
+border-radius: 5px;
+border-width: 1px;
+/*display:inline-block;*/
+/*box-sizing: border-box;*/
+background-color: #FDE9C5;
+
+
+
 }
 
 #description {
@@ -100,11 +116,11 @@ display: inline-block;
 }
 
 #results {
-display: inline-block;
+/*display: inline;*/
+text-align: center;
 position: absolute;
-right: 10px;
-top: 0px;
-width: 24%;
+bottom: 10px;
+width: 100%;
 
 }
 
@@ -175,30 +191,81 @@ margin: 5px;
     
 }
 
+.coffeeShop span{
+    font-family: 'Questrial', sans-serif;
+    padding: 2.5px;
+}
+
+
 /*.clearfix {
     overflow: auto;
 }*/
 
+.name{
+    font-size: 30px;
+    font-family: 'Baloo', cursive;
+    color: #2F2933;
+    padding: 0px 5px;
+}
 
-.coffeeShop h3{
-    position: relative;
+.hoverText{
+    font-size: 20px;
+    font-family: 'Baloo', cursive;
+    color: #2F2933;
+
+}
+
+.priceText{
+    color: #228B22
+}
+
+.coffeeShop h3{  
+    font-size: 18px;
+    font-family: 'Baloo', cursive;
+    color: #2F2933;
+    padding: 0px 5px;
+}
+
+
+.coffeeShops li{
+/*display: inline;*/
+padding: 10px;
 }
 .coffeeShop{
     border-style: solid;
-    width: 100%;
+    border-color: #A47D2C;
+    width: auto;
     border-radius: 5px;
-    border-width: 2px;
-    margin-bottom: 5px;
+    border-width: 1px;
     display:inline-block;
     box-sizing: border-box;
-
+    background-color: #FDE9C5;
 }
 
+.coffeeInfo {
+    border-style: solid;
+    border-color: #A47D2C;
+    width: auto;
+    border-radius: 5px;
+    border-width: 1px;
+    display:inline-block;
+    box-sizing: border-box;
+    background-color: #FDE9C5;
+}
 
-.name{
+/*#titleSearch {
+    border: solid;
+    border-style: thin;
+    
+}
+#titleSearch p{
+    position: absolute;
+    font-family: 'Baloo', cursive;
     font-size: 20px;
     text-align: center;
-}
+    margin-top: 30px;
+    color:   #210063
+}*/
 
 .cf:before, .cf:after{
     content:"";
@@ -216,19 +283,24 @@ margin: 5px;
  /* Form wrapper styling */
 .search-wrapper {
 width: 220px;
-margin: 45px auto 50px auto;
+position: absolute;
+margin: 105px 25px;
 box-shadow: 0 1px 1px rgba(0, 0, 0, .4) inset, 0 1px 0 rgba(255, 255, 255, .2);
 }
  
 /* Form text input */
  
 .search-wrapper input {
+/*position: absolute;*/
 width: 150px;
 height: 20px;
 padding: 10px 5px;
+border-style: solid none solid solid;
+border-width: thin;
+border-color: #93BFB5;
 float: left;
 font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
-border: 0;
+/*border: 0;*/
 background: #EEE;
 border-radius: 3px 0 0 3px;
 }
@@ -236,23 +308,23 @@ border-radius: 3px 0 0 3px;
 .search-wrapper input:focus {
     outline: 0;
     background: #fff;
-    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+    /*box-shadow: 0 0 2px rgba(0,0,0,.8) inset;*/
 }
  
 .search-wrapper input::-webkit-input-placeholder {
-   color: #999;
+   /*color: #999;*/
    font-weight: normal;
    font-style: italic;
 }
  
 .search-wrapper input:-moz-placeholder {
-    color: #999;
+    /*color: #999;*/
     font-weight: normal;
     font-style: italic;
 }
  
 .search-wrapper input:-ms-input-placeholder {
-    color: #999;
+    /*color: #999;*/
     font-weight: normal;
     font-style: italic;
 }    
@@ -265,12 +337,12 @@ float: right;
 border: 0;
 padding: 0;
 cursor: pointer;
-height: 40px;
+height: 42px;
 width: 72px;
 font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
 color: white;
 text-transform: uppercase;
-background: #D83C3C;
+background: #EB5338;
 border-radius: 0 3px 3px 0;
 text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
 }
@@ -308,3 +380,47 @@ text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
     border: 0;
     padding: 0;
 }    
+
+.hvr-grow {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+}
+.hvr-grow:hover, .hvr-grow:focus, .hvr-grow:active {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.hvr-bubble-top {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+}
+.hvr-bubble-top:before {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  content: '';
+  border-style: solid;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  left: calc(50% - 10px);
+  top: 0;
+  border-width: 0 10px 10px 10px;
+  border-color: transparent transparent #e1e1e1 transparent;
+}
+.hvr-bubble-top:hover:before, .hvr-bubble-top:focus:before, .hvr-bubble-top:active:before {
+  -webkit-transform: translateY(-10px);
+  transform: translateY(-10px);
+}

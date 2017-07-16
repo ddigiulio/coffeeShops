@@ -36,7 +36,7 @@ router.post('/', jsonParser,
 
     let user = req.user;
     if (!user.coffeeShops.includes(req.body.address)) {
-      const requiredFields = ['name', 'address', 'rating', 'tags', 'photoURL'];
+      const requiredFields = ['name', 'address', 'rating', 'photoURL'];
       for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -51,11 +51,11 @@ router.post('/', jsonParser,
           name: req.body.name,
           address: req.body.address,
           rating: req.body.rating,
-          tags: req.body.tags,
           photoURL: req.body.photoURL,
           lat: req.body.lat || null,
           lng: req.body.lng || null,
-          description: req.body.description
+          description: req.body.description,
+          price: req.body.price
         })
         .then(
         function (coffeeshop) {
