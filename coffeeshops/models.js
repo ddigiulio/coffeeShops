@@ -19,13 +19,11 @@ coffeeShopsSchema.methods.apiRepr = function() {
     name: this.name,
     address: this.address,
     rating: this.rating,
-    photoURL: this.photoURL,
     lat: this.lat,
     lng: this.lng,
     description: this.description,
     price: this.price
 
-    //for rating - check the format and make a virtual?
   
   };
 }

@@ -27,14 +27,18 @@ app.use(createPassportRouter());
 app.use('/users/', usersRouter);
 app.use('/coffeeshops', coffeeShopRouter);
 
+
+
+
 app.use('*', function(req, res) {
   return res.status(404).json({message: 'Not Found'});
 });
 
 
+
 let server;
 
-function runServer() {
+function runServer(databaseUrl=DATABASE_URL, port=PORT) {
   return new Promise((resolve, reject) => {
     mongoose.connect(DATABASE_URL, err => {
       if (err) {

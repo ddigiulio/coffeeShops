@@ -313,11 +313,6 @@ function searchPlaces(pos, map) {
                                         description = "~~~~~!@@!~~~~~"
                                     }
                                   
-                                    if (currentShop.photos !== undefined) {
-                                        photo = currentShop.photos[0].getUrl({ 'maxWidth': 100, 'maxHeight': 100 });
-                                    }
-                                    else photo = "";
-                                    
                                     jQuery.ajax({
                                         url: myurl,
                                         type: "POST",
@@ -326,7 +321,7 @@ function searchPlaces(pos, map) {
                                                 name: currentShop.name,
                                                 address: currentShop.vicinity,
                                                 rating: currentShop.rating,                                             
-                                                photoURL: photo || "",
+                                                // photoURL: photo || "",
                                                 lat: currentShop.geometry.location.lat(),
                                                 lng: currentShop.geometry.location.lng(),
                                                 description: description,
@@ -382,7 +377,6 @@ function showCoffeeShops() {
         });
     }).then(coffeeShops => {
         currentCoffeeShops = coffeeShops;
-        
         coffeeShops.forEach(function (coffeeShop, i) {
             //how to do distance??? pass in address to another function, get distance from location and display?
             //to work on
@@ -406,7 +400,7 @@ function signUpHandler() {
 
         var userName = $("form").serializeArray()[0].value;
         var password = $("form").serializeArray()[1].value;
-
+        console.log("userName:" + userName + " passWord:" + password)
         jQuery.ajax({
             url: myurl,
             type: "POST",
@@ -418,8 +412,11 @@ function signUpHandler() {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-
+                
                 logIn(data.username, data.password)
+            }, 
+            error: function(data){
+                
             }
         });
     });
@@ -474,14 +471,20 @@ function logIn(userName, password) {
 }
 
 function hoverHandler(){
+
     $('.coffeeShops').on("click", "li", function(event){
         event.preventDefault();
+        if($(this).hasClass("clicked"))
+        {
+            $(this).removeClass("clicked");
+            $('#tempBox').addClass("hidden");
+        }
+        else{
+        $(this).addClass("clicked");
         $('#tempBox').empty();
         var currentShop =($(this).attr("value"));
         var bottomPosition = 80;
-        console.log(bottomPosition);
         var leftPosition = ($(this).position().left)-25;
-        // console.log(position);
         var coffeeShop = currentCoffeeShops[currentShop];
         
         var template = "";
@@ -500,7 +503,7 @@ function hoverHandler(){
         if (coffeeShop.price != 100){
 
             var priceString = "";
-            console.log("here");
+            
             for(var i = 0; i < coffeeShop.price; i++ )
             {
                 priceString += "$";
@@ -512,10 +515,11 @@ function hoverHandler(){
         {
             template += '<span class="hoverText">' + "Description: " + coffeeShop.description + '</span>'; 
         }
-      
+
         $('#tempBox').append(template);
         $('#tempBox').css({'bottom' : bottomPosition , 'left' : leftPosition} );
         $('#tempBox').removeClass("hidden");
+        }
     });
 }
 

@@ -5,10 +5,7 @@ const serveStatic = require('serve-static');
 const mongoose = require('mongoose');
 const { User } = require('./models');
 
-
-
 const router = express.Router();
-
 mongoose.Promise = global.Promise;
 
 
@@ -39,7 +36,6 @@ router.put('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-
   let { username, password, firstName, lastName } = req.body;//those 4 properties being picked out from req.body from AJAX request
   return User
     .find({ username })
@@ -59,9 +55,9 @@ router.post('/', (req, res) => {
           firstName: firstName,
           lastName: lastName
         });
-
     })
     .then(user => {
+      console.log(req.user.id);
       return res.status(201).json(user);
     })
     .catch(err => {
