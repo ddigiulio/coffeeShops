@@ -4,6 +4,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 var mongoose = require('mongoose');
+// const routerFunctions = require("../routerFunctions");
 router.use(jsonParser);
 
 const { coffeeShops } = require('./models');
@@ -12,7 +13,9 @@ const { coffeeShops } = require('./models');
 //change for all users once users are implemented on front end
 router.get('/', (req, res) => {
   console.log(req.user.coffeeShops);
-  coffeeShops
+  //change for users (add in)
+  // routerFunctions.getCoffeeShops();
+    coffeeShops
     .find()
     .exec()
     .then(coffeeShops => {
@@ -24,6 +27,7 @@ router.get('/', (req, res) => {
       console.error(err);
       res.status(500).json({ message: 'Internal server error' })
     });
+
 });
 
 //make another get just for specific coffee shop (click on it in view for more info??)
