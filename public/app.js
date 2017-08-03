@@ -542,6 +542,6 @@ $(signUpHandler);
 $(logInHandler);
 $(logOutHandler);
 $(hoverHandler);
-$(deleteUsers);
+// $(deleteUsers);
 
 
