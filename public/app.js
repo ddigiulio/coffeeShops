@@ -162,7 +162,7 @@ function initAutocomplete() {
 }
 function searchPlaces(pos, map) {
 
-    var myurl = "window.location.origin/coffeeshops";
+    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
     var prevMarkers = [];
     var markers = [];
     pos = pos;
@@ -361,7 +361,7 @@ function searchPlaces(pos, map) {
 
 function showCoffeeShops() {
     
-    var myurl = "window.location.origin/coffeeshops";
+    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
     var coffeeShopListTemplate = "";
     $('ol').empty();
     const getPromise = new Promise((resolve, reject) => {
@@ -385,7 +385,7 @@ function showCoffeeShops() {
 }
 
 function signUpHandler() {
-    var myurl = "window.location.origin/users/";
+    var myurl = "https://agile-coast-54783.herokuapp.com/users/";
     $('button.signUp').on("click", function () {
         event.preventDefault();
 
@@ -427,7 +427,7 @@ function logInHandler() {
 function logOutHandler() {
     $('button.logOut').on("click", function(){
          event.preventDefault();
-         var myurl = "window.location.origin/users/logout";
+         var myurl = "https://agile-coast-54783.herokuapp.com/users/logout";
           $.get(myurl, function (data) {
             $('button.logOut').hide();
             $('.logIns').show();
@@ -439,7 +439,7 @@ function logOutHandler() {
 }
 
 function logIn(userName, password) {
-    var myurl = "window.location.origin/users/login";
+    var myurl = "https://agile-coast-54783.herokuapp.com/users/login";
     // var myurl = "https://***.herokuapp.com:443/"
     jQuery.ajax({
         url: myurl,
@@ -515,7 +515,7 @@ function hoverHandler(){
 }
 
 function deleteUsers(){
-     var myurl = "window.location.origin/users/deleteAll";
+     var myurl = "https://agile-coast-54783.herokuapp.com/users/deleteAll";
 
     $('button.deleteUsers').on("click", function () {
         event.preventDefault();
