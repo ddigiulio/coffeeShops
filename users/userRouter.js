@@ -36,31 +36,33 @@ router.put('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  let { username, password, firstName, lastName } = req.body;//those 4 properties being picked out from req.body from AJAX request
+  let { username, password} = req.body;//those 4 properties being picked out from req.body from AJAX request
+  console.log(req.body)
+
   return User
     .find({ username })
     .count()
     .exec()
     .then(count => {
+   
       if (count > 0) {
         return res.status(422).json({ message: 'username already taken' });
       }
       return User.hashPassword(password)
     })
     .then(hash => {
+      console.log("HERE");
       return User
         .create({
           username: username,
           password: hash,
-          firstName: firstName,
-          lastName: lastName
         });
     })
     .then(user => {
-      console.log(req.user.id);
       return res.status(201).json(user);
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({ message: 'Internal server error' })
     });
 });
@@ -69,6 +71,7 @@ router.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
 
     if (err) {
+      console.log(err);
       return next(err); // will generate a 500 error
     }
     // Generate a JSON response reflecting authentication status
@@ -86,13 +89,13 @@ router.post('/login', function (req, res, next) {
 });
 
 
-router.get('/existing',
-  // passport.authenticate('local'),
-  function (req, res) {
-    // passport.authenticate('local', function (err, user, info) {
-      // debugger;
-    // });
-  });
+// router.get('/existing',
+//   // passport.authenticate('local'),
+//   function (req, res) {
+//     // passport.authenticate('local', function (err, user, info) {
+//       // debugger;
+//     // });
+//   });
 
 
 router.get('/logout', function (req, res) {

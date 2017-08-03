@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 var cors = require('cors')
 const { createPassportRouter } = require('./passportRouter');
-const {router: usersRouter} = require('./users');
-const {router: coffeeShopRouter} = require('./coffeeshops');
+const { router: usersRouter } = require('./users');
+const { router: coffeeShopRouter } = require('./coffeeshops');
 
 mongoose.Promise = global.Promise;
 
@@ -27,14 +27,9 @@ app.use(createPassportRouter());
 app.use('/users/', usersRouter);
 app.use('/coffeeshops', coffeeShopRouter);
 
-
-
-
 app.use('*', function(req, res) {
   return res.status(404).json({message: 'Not Found'});
 });
-
-
 
 let server;
 

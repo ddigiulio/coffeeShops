@@ -12,22 +12,18 @@ const { coffeeShops } = require('./models');
 //get all for the user USE IN testARray find again
 //change for all users once users are implemented on front end
 router.get('/', (req, res) => {
-  console.log(req.user.coffeeShops);
+  // console.log(req.user.coffeeShops);
   //change for users (add in)
-  // routerFunctions.getCoffeeShops();
-    coffeeShops
-    .find()
+  coffeeShops
+    .find({"address": {"$in": req.user.coffeeShops}})
     .exec()
     .then(coffeeShops => {
       coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
       res.json(coffeeShops);
-      
     })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ message: 'Internal server error' })
+    .catch((err) => {
+       res.status(500).json({ message: 'Internal server error' })
     });
-
 });
 
 //make another get just for specific coffee shop (click on it in view for more info??)
@@ -47,7 +43,7 @@ router.post('/', jsonParser,
           return res.status(400).send(message);
         }
       }
-      
+
       coffeeShops
         .create({
           name: req.body.name,
@@ -113,3 +109,5 @@ router.put('/:id', (req, res) => {
 });
 
 module.exports = { router };
+
+

@@ -321,17 +321,12 @@ function searchPlaces(pos, map) {
                                                 name: currentShop.name,
                                                 address: currentShop.vicinity,
                                                 rating: currentShop.rating,                                             
-                                                // photoURL: photo || "",
-                                                lat: currentShop.geometry.location.lat(),
-                                                lng: currentShop.geometry.location.lng(),
                                                 description: description,
                                                 price: currentShop.price_level
-
                                             }),
                                         dataType: "json",
                                         contentType: "application/json; charset=utf-8",
                                         success: function (data) {
-                                          
                                             jQuery.ajax({
                                                 url: "http://localhost:8080/users",
                                                 type: "PUT",
@@ -342,7 +337,6 @@ function searchPlaces(pos, map) {
                                                 dataType: "json",
                                                 contentType: "application/json; charset=utf-8",
                                                 success: function (data) {
-                                                    
                                                     showCoffeeShops();
                                                 }
                                             });
@@ -352,7 +346,6 @@ function searchPlaces(pos, map) {
                             });
                         }
                     });
-
                     if (place.geometry.viewport) {
                         // Only geocodes have viewport.
                         bounds.union(place.geometry.viewport);
@@ -367,7 +360,7 @@ function searchPlaces(pos, map) {
 }
 
 function showCoffeeShops() {
-
+    
     var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
     $('ol').empty();
@@ -388,9 +381,7 @@ function showCoffeeShops() {
             );
         });
         $('.coffeeShops').append(coffeeShopListTemplate);
-        // console.log(currentCoffeeShops)
     });
-
 }
 
 function signUpHandler() {
@@ -412,11 +403,11 @@ function signUpHandler() {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                
+                console.log("successfully signed up")
                 logIn(data.username, data.password)
             }, 
             error: function(data){
-                
+                // console.log(data);             
             }
         });
     });
@@ -463,7 +454,6 @@ function logIn(userName, password) {
             $('form')[0].reset();
             $(".logIns").hide();
             $(".logOut").show();
-            // $('#map').width('75%');
             currentCoffeeShops = [];
             showCoffeeShops();
         }
@@ -523,20 +513,35 @@ function hoverHandler(){
     });
 }
 
-function getRequest(address){
-    console.log(address);
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'address': address}, function(results, status){
-        if(status == 'OK'){
-            return results[0].geometry.location;
-        }
-        else {
-            alert("Geocode was not successful for the following reason: " + status)
-        }
+function deleteUsers(){
+     var myurl = "http://localhost:8080/users/deleteAll";
+
+    $('button.deleteUsers').on("click", function () {
+        event.preventDefault();
+        jQuery.ajax({
+            url: myurl,
+            type: "Delete",
+            data: JSON.stringify
+                ({
+                }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log("successfully deleted USERS")
+                
+            }, 
+            error: function(data){
+                // console.log(data);             
+            }
+        });
     });
+  
 }
+
 $(signUpHandler);
 $(logInHandler);
 $(logOutHandler);
 $(hoverHandler);
+$(deleteUsers);
+
 

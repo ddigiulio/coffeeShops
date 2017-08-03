@@ -1,18 +1,23 @@
 const { coffeeShops } = require('./coffeeshops/models');
 
-export const getCoffeeShops = function ()
+ function getCoffeeShops()
 {
     coffeeShops
-    .find()
-    .exec()
-    .then(coffeeShops => {
-      coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
-      res.json(coffeeShops);
-      
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ message: 'Internal server error' })
-    });
+        .find()
+        .exec()
+        .then(coffeeShops => {
+        coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
+        return coffeeShops;    
+        })
+        .catch((err) => {
+            if (err == 'user already exists') {
+                throw new Error('User Already Exists');
+            }
+            if (err == 'some random error') {
+                throw new Error('InternalServerError');
+            }
+});
 }
+
+module.exports = getCoffeeShops;
 

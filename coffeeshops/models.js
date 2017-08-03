@@ -4,10 +4,7 @@ const coffeeShopsSchema = mongoose.Schema({
   name: {type: String, required: true},
   address: {type: String, required: true},
   rating: {type: Number, required: true},
-  photoURL: {type: String},
   description: {type: String},
-  lat: {type: Number},
-  lng: {type: Number},
   price: {type: Number}
 
 });
