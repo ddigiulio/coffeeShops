@@ -162,7 +162,7 @@ function initAutocomplete() {
 }
 function searchPlaces(pos, map) {
 
-    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
     var markers = [];
     pos = pos;
@@ -328,7 +328,7 @@ function searchPlaces(pos, map) {
                                         contentType: "application/json; charset=utf-8",
                                         success: function (data) {
                                             jQuery.ajax({
-                                                url: "window.location.origin/users",
+                                                url: "http://localhost:8080/users",
                                                 type: "PUT",
                                                 data: JSON.stringify
                                                     ({
@@ -361,7 +361,7 @@ function searchPlaces(pos, map) {
 
 function showCoffeeShops() {
     
-    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
     $('ol').empty();
     const getPromise = new Promise((resolve, reject) => {
@@ -385,7 +385,7 @@ function showCoffeeShops() {
 }
 
 function signUpHandler() {
-    var myurl = "https://agile-coast-54783.herokuapp.com/users/";
+    var myurl = "http://localhost:8080/users/";
     $('button.signUp').on("click", function () {
         event.preventDefault();
 
@@ -427,7 +427,7 @@ function logInHandler() {
 function logOutHandler() {
     $('button.logOut').on("click", function(){
          event.preventDefault();
-         var myurl = "https://agile-coast-54783.herokuapp.com/users/logout";
+         var myurl = "http://localhost:8080/users/logout";
           $.get(myurl, function (data) {
             $('button.logOut').hide();
             $('.logIns').show();
@@ -439,7 +439,7 @@ function logOutHandler() {
 }
 
 function logIn(userName, password) {
-    var myurl = "https://agile-coast-54783.herokuapp.com/users/login";
+    var myurl = "http://localhost:8080/users/login";
     // var myurl = "https://***.herokuapp.com:443/"
     jQuery.ajax({
         url: myurl,
@@ -515,7 +515,7 @@ function hoverHandler(){
 }
 
 function deleteUsers(){
-     var myurl = "https://agile-coast-54783.herokuapp.com/users/deleteAll";
+     var myurl = "http://localhost:8080/users/deleteAll";
 
     $('button.deleteUsers').on("click", function () {
         event.preventDefault();

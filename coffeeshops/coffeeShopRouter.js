@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
   // console.log(req.user.coffeeShops);
   //change for users (add in)
 
-  routerFunctions()
+  routerFunctions.getCoffeeShops()
   .then((coffeeShops => {
        coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
        res.json(coffeeShops);
@@ -24,7 +24,6 @@ router.get('/', (req, res) => {
        });
       //handle the thrown error
 
-      
 
   // coffeeShops
   //   .find({"address": {"$in": req.user.coffeeShops}})
