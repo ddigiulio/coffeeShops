@@ -4,7 +4,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 var mongoose = require('mongoose');
-// const routerFunctions = require("../routerFunctions");
+const routerFunctions = require("../routerFunctions");
 router.use(jsonParser);
 
 const { coffeeShops } = require('./models');
@@ -14,16 +14,42 @@ const { coffeeShops } = require('./models');
 router.get('/', (req, res) => {
   // console.log(req.user.coffeeShops);
   //change for users (add in)
-  coffeeShops
-    .find({"address": {"$in": req.user.coffeeShops}})
-    .exec()
-    .then(coffeeShops => {
-      coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
-      res.json(coffeeShops);
-    })
-    .catch((err) => {
-       res.status(500).json({ message: 'Internal server error' })
-    });
+
+  routerFunctions()
+  .then((coffeeShops => {
+       coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
+       res.json(coffeeShops);
+     }))
+     .catch((err) => {
+       if (err === 'SOME ERROR') {
+        return res.status(500).json({
+            name: 'InternalServerError',
+            message: 'an error occured blah blah blah'
+          });
+       }
+      //handle the thrown error
+      
+
+      res.status(404).json({
+        name: 'UserNotFoundError',
+        message: 'We could not fnd the user'
+      });
+      console.log(err);
+      
+    });;
+  
+  // coffeeShops
+  //   .find({"address": {"$in": req.user.coffeeShops}})
+  //   .exec()
+  //   .then(coffeeShops => {
+  //     coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
+  //     res.json(coffeeShops);
+  //   })
+  //   .catch((err) => {
+  //      res.status(500).json({ message: 'Internal server error' })
+  //   });
+
+
 });
 
 //make another get just for specific coffee shop (click on it in view for more info??)
@@ -109,5 +135,3 @@ router.put('/:id', (req, res) => {
 });
 
 module.exports = { router };
-
-

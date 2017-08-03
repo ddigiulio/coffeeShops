@@ -1,23 +1,18 @@
 const { coffeeShops } = require('./coffeeshops/models');
 
- function getCoffeeShops()
-{
-    coffeeShops
+function getCoffeeShops() {
+    return coffeeShops
         .find()
         .exec()
         .then(coffeeShops => {
-        coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
-        return coffeeShops;    
-        })
-        .catch((err) => {
-            if (err == 'user already exists') {
-                throw new Error('User Already Exists');
-            }
-            if (err == 'some random error') {
-                throw new Error('InternalServerError');
-            }
-});
+            return coffeeShops;
+        });
+        // .catch((err) => {
+        //     console.log(err);
+        //     throw new Error("SOME ERROR")
+        // });
 }
 
-module.exports = getCoffeeShops;
-
+module.exports = {
+    getCoffeeShops
+}

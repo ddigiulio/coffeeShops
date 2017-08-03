@@ -328,7 +328,7 @@ function searchPlaces(pos, map) {
                                         contentType: "application/json; charset=utf-8",
                                         success: function (data) {
                                             jQuery.ajax({
-                                                url: "http://localhost:8080/users",
+                                                url: "window.location.origin/users",
                                                 type: "PUT",
                                                 data: JSON.stringify
                                                     ({
@@ -361,7 +361,7 @@ function searchPlaces(pos, map) {
 
 function showCoffeeShops() {
     
-    var myurl = "http://localhost:8080/coffeeshops";
+    var myurl = "window.location.origin/coffeeshops";
     var coffeeShopListTemplate = "";
     $('ol').empty();
     const getPromise = new Promise((resolve, reject) => {
@@ -385,7 +385,7 @@ function showCoffeeShops() {
 }
 
 function signUpHandler() {
-    var myurl = "http://localhost:8080/users/";
+    var myurl = "window.location.origin/users/";
     $('button.signUp').on("click", function () {
         event.preventDefault();
 
@@ -427,7 +427,7 @@ function logInHandler() {
 function logOutHandler() {
     $('button.logOut').on("click", function(){
          event.preventDefault();
-         var myurl = "http://localhost:8080/users/logout";
+         var myurl = "window.location.origin/users/logout";
           $.get(myurl, function (data) {
             $('button.logOut').hide();
             $('.logIns').show();
@@ -439,7 +439,8 @@ function logOutHandler() {
 }
 
 function logIn(userName, password) {
-    var myurl = "http://localhost:8080/users/login";
+    var myurl = "window.location.origin/users/login";
+    // var myurl = "https://***.herokuapp.com:443/"
     jQuery.ajax({
         url: myurl,
         type: "POST",
@@ -514,7 +515,7 @@ function hoverHandler(){
 }
 
 function deleteUsers(){
-     var myurl = "http://localhost:8080/users/deleteAll";
+     var myurl = "window.location.origin/users/deleteAll";
 
     $('button.deleteUsers').on("click", function () {
         event.preventDefault();
