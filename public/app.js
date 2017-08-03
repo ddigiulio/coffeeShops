@@ -162,7 +162,7 @@ function initAutocomplete() {
 }
 function searchPlaces(pos, map) {
 
-    var myurl = "http://localhost:8080/coffeeshops";
+    var myurl = "window.location.origin/coffeeshops";
     var prevMarkers = [];
     var markers = [];
     pos = pos;
