@@ -21,23 +21,11 @@ router.get('/', (req, res) => {
        res.json(coffeeShops);
      }))
      .catch((err) => {
-       if (err === 'SOME ERROR') {
-        return res.status(500).json({
-            name: 'InternalServerError',
-            message: 'an error occured blah blah blah'
-          });
-       }
+       });
       //handle the thrown error
+
       
 
-      res.status(404).json({
-        name: 'UserNotFoundError',
-        message: 'We could not fnd the user'
-      });
-      console.log(err);
-      
-    });;
-  
   // coffeeShops
   //   .find({"address": {"$in": req.user.coffeeShops}})
   //   .exec()
