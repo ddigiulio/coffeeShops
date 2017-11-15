@@ -7,39 +7,52 @@
     <title>CoffeeShops</title>
     <link rel="stylesheet" href="main.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Baloo|Questrial|Bungee+Inline" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Baloo|Questrial|Bungee+Inline|Rozha+One" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="app.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvGl4j8OHDoeMFigPAwND28e_Ki-0SlFg&libraries=places&callback=initAutocomplete"
         async defer></script>
 </head>
+
 <body>
-     <div id="tempBox" class="hidden">
+    <div id="splashPage">
+
+        <div class="login">
+            <h1>Login</h1>
+            <form autocomplete="off" id="loginForm">
+                <input type="text" name="u" placeholder="Username" required="required" />
+                <input type="password" name="p" placeholder="Password" required="required" />
+                <button class="btn btn-primary btn-block btn-large logIn">Log In</button>
+            </form>
+        </div>
+        <div class="signUpBox">
+            <button class="btn btn-primary btn-block signUpButton">Register</button>
+        </div>
+         <div class="signUp hidden">
+            <h1>Sign Up</h1>
+            <form autocomplete="off" class="signUpForm">
+                <input type="text" name="u" placeholder="Username" required="required" />
+                <input type="password" name="p" placeholder="Password" required="required" />
+                <button class="btn btn-primary btn-block btn-large createAccount">Create Account</button>
+            </form>
+        </div>
         
     </div>
-    <div id="searchBox">
-        <img class="coffeePic" src="coffee.jpg">
-        
-        <!--<p>FIND NEW COFFEESHOPS NEAR YOU!</p>-->
+    <div id="tempBox" class="hidden1">
+    </div>
+    <div id="searchBox" class="hidden">
+        <p class="first"> LOOKING FOR COFFEE?</p>
+        <p class="second"> ENTER AN ADDRESS TO FIND A COFFEE SHOP NEAR YOU! </p>
         <form  class="search-wrapper cf">
         <input type="text" class="search-input" placeholder="Current Location">
-        <button type="submit" class="search-start">Search</button>
-    </form>
+        <button type="submit" class="search-start">Search</button>-->
+       </form>
     </div>
-    <div id="login">
-        <form autocomplete="off">
-            <input type="text" class="logIns" placeholder="Enter Username" name="uname" required>
-            <input type="password" class="logIns" placeholder="Enter Password" name="psw"  required>
-        </form>
-        <button class="signUp logIns loginBtn">Sign Up!</button>
-        <button class="logIn logIns loginBtn">Log In!</button>
-        <button class="logOut loginBtn">Log Out!</button>
-         <!--<button class="deleteUsers">Delete Users!</button>-->
-    </div>
+
     <div id="map">
     </div>
 
-    <div id="results">
+    <div id="results" class="hidden">
         <ol class="coffeeShops"></ol>
     </div>
 </body>
