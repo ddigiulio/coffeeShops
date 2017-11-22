@@ -130,8 +130,13 @@ function initAutocomplete() {
     }
 ]
     });
+    testPosition= {
+        lat: 47.6253,
+        lng: -122.3222
+    } 
     searchPlaces(testPosition, map);
-
+    
+    // console.log(testPosition);
     // var infoWindow = new google.maps.InfoWindow;
     // if (navigator.geolocation) {
     //     navigator.geolocation.getCurrentPosition(function (position) {
@@ -167,7 +172,6 @@ function searchPlaces(pos, map) {
     var prevMarkers = [];
     var markers = [];
     pos = pos;
-    console.log(pos);
     $('button.search-start').on('click', function () {
         event.preventDefault();
         $("#searchBox").hide();
@@ -202,7 +206,6 @@ function searchPlaces(pos, map) {
         
         var service = new google.maps.places.PlacesService(map);
         var promise = new Promise(function (resolve, reject) {
-            // console.log(pos)
             service.nearbySearch({
                 location: pos,
                 radius: '1000',
@@ -238,7 +241,7 @@ function searchPlaces(pos, map) {
                 var bounds = new google.maps.LatLngBounds();
 
                 places = places.filter(function (place) {
-                    return place.icon === "http://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png"
+                    return place.icon === "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png"
                 });
                 // console.log(places);
                 places.forEach(function (place, i) {
@@ -309,7 +312,6 @@ function searchPlaces(pos, map) {
                         if (!google.maps.event.hasListeners(infowindow, 'domready')) {
                             infowindow.addListener('domready', () => {
                                 $('button.save').on('click', function () {
-
                                     var description = $('#userInput').serializeArray()[0].value;
                                     if (description === "")
                                     {
@@ -330,6 +332,7 @@ function searchPlaces(pos, map) {
                                         dataType: "json",
                                         contentType: "application/json; charset=utf-8",
                                         success: function (data) {
+                                            console.log("successfully added: " + data)
                                             jQuery.ajax({
                                                 // url: "https://agile-coast-54783.herokuapp.com/users",
                                                 url: "http://localhost:8080/users",
@@ -341,6 +344,8 @@ function searchPlaces(pos, map) {
                                                 dataType: "json",
                                                 contentType: "application/json; charset=utf-8",
                                                 success: function (data) {
+                                                    infowindow.close();
+                                                    console.log("successlly added users at: " + data)
                                                     showCoffeeShops();
                                                 }
                                             });
@@ -376,8 +381,7 @@ function showCoffeeShops() {
     }).then(coffeeShops => {
         currentCoffeeShops = coffeeShops;
         coffeeShops.forEach(function (coffeeShop, i) {
-            //how to do distance??? pass in address to another function, get distance from location and display?
-            //to work on
+          
             coffeeShopListTemplate += (
                 '<li class="hvr-grow hvr-bubble-top" value="'+ i + '">' + 
                 '<div class="coffeeShop">' +
@@ -469,9 +473,11 @@ function logIn(userName, password) {
         success: function (data) {
             $('form')[0].reset();
             currentCoffeeShops = [];
+            console.log("here");
             $('#splashPage').addClass("hidden1");
             $('#searchBox').removeClass("hidden");
             $('#map').removeClass("hidden");
+            $('#results').removeClass("hidden");
             showCoffeeShops();
         }
     });
@@ -555,10 +561,33 @@ function deleteUsers(){
   
 }
 
+function deleteAll(){
+    var myurl = "http://localhost:8080/coffeeShops/deleteAll";
+    $('button.deleteAll').on("click", function () {
+        event.preventDefault();
+        jQuery.ajax({
+            url: myurl,
+            type: "Get",
+            data: JSON.stringify
+                ({
+                }),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data)
+                
+            }, 
+            error: function(data){
+                console.log(data);             
+            }
+        });
+    });
+}
+$(deleteAll);
 $(signUpHandler);
 $(logInHandler);
 $(logOutHandler);
 $(hoverHandler);
-// $(deleteUsers);
+$(deleteUsers);
 
 

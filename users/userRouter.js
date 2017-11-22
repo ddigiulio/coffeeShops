@@ -89,15 +89,6 @@ router.post('/login', function (req, res, next) {
 });
 
 
-// router.get('/existing',
-//   // passport.authenticate('local'),
-//   function (req, res) {
-//     // passport.authenticate('local', function (err, user, info) {
-//       // debugger;
-//     // });
-//   });
-
-
 router.get('/logout', function (req, res) {
   req.session.destroy(function (err) {
     if (err) {

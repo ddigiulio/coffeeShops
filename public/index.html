@@ -16,20 +16,18 @@
 
 <body>
     <div id="splashPage">
-
+       <h1>The Perfect Cup</h1>
         <div class="login">
-            <h1>Login</h1>
             <form autocomplete="off" id="loginForm">
                 <input type="text" name="u" placeholder="Username" required="required" />
                 <input type="password" name="p" placeholder="Password" required="required" />
                 <button class="btn btn-primary btn-block btn-large logIn">Log In</button>
+                <button class="btn btn-primary btn-block btn-large signUpButton">New User?</button>
             </form>
         </div>
-        <div class="signUpBox">
-            <button class="btn btn-primary btn-block signUpButton">Register</button>
-        </div>
+
          <div class="signUp hidden">
-            <h1>Sign Up</h1>
+           
             <form autocomplete="off" class="signUpForm">
                 <input type="text" name="u" placeholder="Username" required="required" />
                 <input type="password" name="p" placeholder="Password" required="required" />
@@ -41,17 +39,24 @@
     <div id="tempBox" class="hidden1">
     </div>
     <div id="searchBox" class="hidden">
-        <p class="first"> LOOKING FOR COFFEE?</p>
-        <p class="second"> ENTER AN ADDRESS TO FIND A COFFEE SHOP NEAR YOU! </p>
+        <p class="first"> Searching for the perfect cup?</p>
+        <p class="second">FIND A COFFEE SHOP NEAR YOU! </p>
         <form  class="search-wrapper cf">
         <input type="text" class="search-input" placeholder="Current Location">
         <button type="submit" class="search-start">Search</button>-->
        </form>
     </div>
-
+    <!--<div class="deleteUser">
+        <button class="deleteUsers"> "Delete Users" </button>
+        </div>
+     <div class="deleteAllShops">
+        <button class="deleteAll"> "Delete All" </button>
+        </div>-->
+    <div class=logOutBox>
+        <button class="logOut">Log Out</button>
+    </div>
     <div id="map">
     </div>
-
     <div id="results" class="hidden">
         <ol class="coffeeShops"></ol>
     </div>

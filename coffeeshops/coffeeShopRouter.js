@@ -14,28 +14,16 @@ const { coffeeShops } = require('./models');
 router.get('/', (req, res) => {
   // console.log(req.user.coffeeShops);
   //change for users (add in)
-
-  routerFunctions.getCoffeeShops()
+  routerFunctions.getCoffeeShops(req.user.coffeeShops)
   .then((coffeeShops => {
+       console.log("In the get of coffeeshops");
+       console.log(coffeeShops);
        coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
        res.json(coffeeShops);
      }))
      .catch((err) => {
        });
       //handle the thrown error
-
-
-  // coffeeShops
-  //   .find({"address": {"$in": req.user.coffeeShops}})
-  //   .exec()
-  //   .then(coffeeShops => {
-  //     coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
-  //     res.json(coffeeShops);
-  //   })
-  //   .catch((err) => {
-  //      res.status(500).json({ message: 'Internal server error' })
-  //   });
-
 
 });
 
@@ -46,6 +34,11 @@ router.post('/', jsonParser,
 
     //get the current user and his ID to post the coffee shop to?
     let user = req.user;
+    let address= req.body.address;
+    console.log("******************")
+    console.log("user is: " + user + " END")
+    console.log("address is: " + address);
+    console.log("******************")
     if (!user.coffeeShops.includes(req.body.address)) {
       const requiredFields = ['name', 'address', 'rating'];
       for (let i = 0; i < requiredFields.length; i++) {
@@ -56,7 +49,6 @@ router.post('/', jsonParser,
           return res.status(400).send(message);
         }
       }
-
       coffeeShops
         .create({
           name: req.body.name,
@@ -69,12 +61,14 @@ router.post('/', jsonParser,
         })
         .then(
         function (coffeeshop) {
+          console.log(coffeeshop)
           res.status(201).json(coffeeshop.apiRepr());
         });
     }
 
     else {
-      return res.status(400).send("Coffeeshop already exists")
+      const message = "CoffeeShop already exists"
+      return res.status(400).send(message)
     }
   });
 
@@ -85,6 +79,11 @@ router.delete('/:id', (req, res) => {
     .then(coffeeshop => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
+
+router.get('/deleteAll', (req, res) => {
+  coffeeShops.remove()
+  .then(res.json({message: "Deleted all"}))
+})
 
 //doesnt have to be this way:  might not need to have ID in body as long as ID is in endpoint?
 //need to have a way to refer to which item I want to update and make sure that it is correct.

@@ -29,8 +29,9 @@ padding: 0;  /* fallback for old browsers */
     top: 40%;
     left: 35%;
     border-style: solid;
-    border-radius: 2px;
-    border-color: #93BFB5;
+    border-color: #A47D2C; 
+    border-radius: 5px;
+    border-width: 1px;
     z-index: 9999;
     background-color: #FDE9C5;
     /*background-image: url("coffee.jpg");*/
@@ -90,14 +91,28 @@ height: 100%;
 margin: 0;
 padding: 0; 
 position: relative;
-background-color: pink;
+
+background: #FDE9C5; /* For browsers that do not support gradients */
+background: -webkit-linear-gradient(left top, #FDE9C5, #A47D2C); /* For Safari 5.1 to 6.0 */
+background: -o-linear-gradient(bottom right, #FDE9C5, #A47D2C); /* For Opera 11.1 to 12.0 */
+background: -moz-linear-gradient(bottom right, #FDE9C5, #A47D2C); /* For Firefox 3.6 to 15 */
+background: linear-gradient(to bottom right, #FDE9C5, #A47D2C); /* Standard syntax */
 
 }
-
+.signUpButton{
+    margin-top: 5px;
+}
 .signUpBox{
 float: right;
 width: 90px;
 
+}
+
+#splashPage h1{
+    padding: 65px;
+    text-align: center;
+    font-family: 'Baloo', cursive;
+    font-size: 80px;
 }
 #description {
 font-family: Roboto;
@@ -221,6 +236,7 @@ margin: 5px;
     color: #228B22
 }
 
+
 .coffeeShop h3{  
     font-size: 18px;
     font-family: 'Baloo', cursive;
@@ -255,19 +271,7 @@ padding: 10px;
     background-color: #FDE9C5;
 }
 
-/*#titleSearch {
-    border: solid;
-    border-style: thin;
-    
-}
-#titleSearch p{
-    position: absolute;
-    font-family: 'Baloo', cursive;
-    font-size: 20px;
-    text-align: center;
-    margin-top: 30px;
-    color:   #210063
-}*/
+
 
 .cf:before, .cf:after{
     content:"";
@@ -465,6 +469,29 @@ html { width: 100%; height:100%; overflow:hidden; }
 	height:300px;
 }
 
+.logOutBox{
+    width: 100px;
+    height: 35px;
+    position: absolute;
+    background-color: #FDE9C5;
+    z-index: 99999;
+}
+.logOut{
+    width: 100px;
+    height: 35px;
+    border-style: solid;
+    border-color: #A47D2C; 
+    border-radius: 5px;
+    border-width: 1px;
+    background-color: #FDE9C5;
+    font-size: 18px;
+    font-family: 'Baloo', cursive;
+    color: #2F2933;
+}
+
+.logOut:hover{
+    cursor: pointer;
+}
 .signUp h1 {color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center;}
 input { 
 	width: 100%; 
