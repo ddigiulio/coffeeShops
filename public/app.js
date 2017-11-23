@@ -449,10 +449,10 @@ function logOutHandler() {
          var myurl = "http://localhost:8080/users/logout"
           $.get(myurl, function (data) {
             $('button.logOut').hide();
-            $('.logIns').show();
             // $('#map').width('100%');
             $('.coffeeShops').empty();
-       
+            $('#splashPage').removeClass("hidden1");
+            $('#searchBox').addClass("hidden");
         });
     });
 }
@@ -478,6 +478,7 @@ function logIn(userName, password) {
             $('#searchBox').removeClass("hidden");
             $('#map').removeClass("hidden");
             $('#results').removeClass("hidden");
+            $('button.logOut').show();
             showCoffeeShops();
         }
     });
