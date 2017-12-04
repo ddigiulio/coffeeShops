@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <title>CoffeeShops</title>
     <link rel="stylesheet" href="main.css">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
@@ -16,7 +16,9 @@
 
 <body>
     <div id="splashPage">
+        <div id="imgContainer">
        <h1>The Perfect Cup</h1>
+       </div>
         <div class="login">
             <form autocomplete="off" id="loginForm">
                 <input type="text" name="u" placeholder="Username" required="required" />
@@ -32,9 +34,12 @@
                 <input type="text" name="u" placeholder="Username" required="required" />
                 <input type="password" name="p" placeholder="Password" required="required" />
                 <button class="btn btn-primary btn-block btn-large createAccount">Create Account</button>
+                <button class="btn btn-primary btn-block  goBack">Back to Log In page</button>
             </form>
         </div>
-        
+        <div class="about">
+            <span> The Perfect Cup is designed to make it easier to find new and interesting coffee shops near you!  <br/> Log in or create a free account to start exploring! </span>
+        </div>
     </div>
     <div id="tempBox" class="hidden1">
     </div>
@@ -54,6 +59,9 @@
         </div>-->
     <div class=logOutBox>
         <button class="logOut">Log Out</button>
+    </div>
+    <div class="infoBox hidden3" >
+        <span> Click on a coffeeshop icon to see its info and save it to your profile</span>
     </div>
     <div id="map">
     </div>

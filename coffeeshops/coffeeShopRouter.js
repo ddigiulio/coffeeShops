@@ -9,67 +9,51 @@ router.use(jsonParser);
 
 const { coffeeShops } = require('./models');
 
-//get all for the user USE IN testARray find again
-//change for all users once users are implemented on front end
+
 router.get('/', (req, res) => {
-  // console.log(req.user.coffeeShops);
-  //change for users (add in)
-  routerFunctions.getCoffeeShops(req.user.coffeeShops)
-  .then((coffeeShops => {
-       console.log("In the get of coffeeshops");
-       console.log(coffeeShops);
-       coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
-       res.json(coffeeShops);
-     }))
-     .catch((err) => {
-       });
-      //handle the thrown error
+
+  
+      var coffeeShops = req.user.coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
+      res.json(coffeeShops);
+
 
 });
 
-//make another get just for specific coffee shop (click on it in view for more info??)
 router.post('/', jsonParser,
-  //passport.authenticate('local'), 
   (req, res) => {
 
-    //get the current user and his ID to post the coffee shop to?
     let user = req.user;
-    let address= req.body.address;
-    console.log("******************")
-    console.log("user is: " + user + " END")
-    console.log("address is: " + address);
-    console.log("******************")
-    if (!user.coffeeShops.includes(req.body.address)) {
-      const requiredFields = ['name', 'address', 'rating'];
-      for (let i = 0; i < requiredFields.length; i++) {
-        const field = requiredFields[i];
-        if (!(field in req.body)) {
-          const message = `Missing \`${field}\` in request body`
-          console.error(message);
-          return res.status(400).send(message);
-        }
-      }
-      coffeeShops
-        .create({
-          name: req.body.name,
-          address: req.body.address,
-          rating: req.body.rating,
-          lat: req.body.lat || null,
-          lng: req.body.lng || null,
-          description: req.body.description,
-          price: req.body.price
-        })
-        .then(
-        function (coffeeshop) {
-          console.log(coffeeshop)
-          res.status(201).json(coffeeshop.apiRepr());
-        });
-    }
+    let address = req.body.address;
 
-    else {
-      const message = "CoffeeShop already exists"
-      return res.status(400).send(message)
+    const requiredFields = ['name', 'address', 'rating'];
+    for (let i = 0; i < requiredFields.length; i++) {
+      const field = requiredFields[i];
+      if (!(field in req.body)) {
+        const message = `Missing \`${field}\` in request body`
+        console.error(message);
+        return res.status(400).send(message);
+      }
     }
+    coffeeShops
+      .create({
+        name: req.body.name,
+        address: req.body.address,
+        rating: req.body.rating,
+        lat: req.body.lat || null,
+        lng: req.body.lng || null,
+        description: req.body.description,
+        price: req.body.price
+      })
+      .then(
+      function (coffeeshop) {
+        user.coffeeShops.push(coffeeshop);
+        user.save()
+          .then(function (user) {
+            res.status(201).json(coffeeshop.apiRepr());
+          })
+      });
+
+
   });
 
 router.delete('/:id', (req, res) => {
@@ -82,7 +66,7 @@ router.delete('/:id', (req, res) => {
 
 router.get('/deleteAll', (req, res) => {
   coffeeShops.remove()
-  .then(res.json({message: "Deleted all"}))
+    .then(res.json({ message: "Deleted all" }))
 })
 
 //doesnt have to be this way:  might not need to have ID in body as long as ID is in endpoint?

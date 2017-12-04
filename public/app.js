@@ -166,7 +166,6 @@ function initAutocomplete() {
     // }
 }
 function searchPlaces(pos, map) {
-
     // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
     var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
@@ -224,6 +223,7 @@ function searchPlaces(pos, map) {
             }
         })
             .then(function (results) {
+                $('.infoBox').removeClass("hidden3");
                 var places = results;
                 if (places.length == 0) {
                     return;
@@ -333,22 +333,7 @@ function searchPlaces(pos, map) {
                                         contentType: "application/json; charset=utf-8",
                                         success: function (data) {
                                             console.log("successfully added: " + data)
-                                            jQuery.ajax({
-                                                // url: "https://agile-coast-54783.herokuapp.com/users",
-                                                url: "http://localhost:8080/users",
-                                                type: "PUT",
-                                                data: JSON.stringify
-                                                    ({
-                                                        coffeeshop: data.address
-                                                    }),
-                                                dataType: "json",
-                                                contentType: "application/json; charset=utf-8",
-                                                success: function (data) {
-                                                    infowindow.close();
-                                                    console.log("successlly added users at: " + data)
-                                                    showCoffeeShops();
-                                                }
-                                            });
+                                            showCoffeeShops();
                                         }
                                     });
                                 });
@@ -374,11 +359,7 @@ function showCoffeeShops() {
     var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
     $('ol').empty();
-    const getPromise = new Promise((resolve, reject) => {
-        $.get(myurl, function (coffeeShops) {
-            resolve(coffeeShops);
-        });
-    }).then(coffeeShops => {
+    $.get(myurl).then(coffeeShops => {
         currentCoffeeShops = coffeeShops;
         coffeeShops.forEach(function (coffeeShop, i) {
           
@@ -393,15 +374,25 @@ function showCoffeeShops() {
     });
 }
 
+function showInfo(){
+
+}
+
 function signUpHandler() {
     // var myurl = "https://agile-coast-54783.herokuapp.com/users/";
     var myurl = "http://localhost:8080/users/"
     //first get to signup page
     $('button.signUpButton').on("click", function () {
         $('.login').addClass("hidden");
-        $('.signUpBox').hide();
+        // $('.signUpBox').hide();
         $('.signUp').removeClass('hidden');
     });
+    $('button.goBack').on("click", function(){
+        event.preventDefault();
+        $('.signUp').addClass('hidden');
+        $('.login').removeClass('hidden');
+        
+    })
     //now sign up
     $('button.createAccount').on("click", function(){
         event.preventDefault();
@@ -419,7 +410,6 @@ function signUpHandler() {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                console.log("successfully signed up")
                 logIn(data.username, data.password)
             }, 
             error: function(data){
@@ -453,6 +443,9 @@ function logOutHandler() {
             $('.coffeeShops').empty();
             $('#splashPage').removeClass("hidden1");
             $('#searchBox').addClass("hidden");
+            $('#tempBox').addClass("hidden1");
+            $('.infoBox').addClass("hidden3");
+            
         });
     });
 }
@@ -476,10 +469,15 @@ function logIn(userName, password) {
             console.log("here");
             $('#splashPage').addClass("hidden1");
             $('#searchBox').removeClass("hidden");
+            $("#searchBox").show(); 
             $('#map').removeClass("hidden");
             $('#results').removeClass("hidden");
             $('button.logOut').show();
+            $('.signUp').addClass('hidden');
+            $('.login').removeClass('hidden');
+            initAutocomplete();
             showCoffeeShops();
+
         }
     });
 }

@@ -15,7 +15,12 @@ const UserSchema = mongoose.Schema({
   },
   firstName: {type: String, default: ""},
   lastName: {type: String, default: ""},
-  coffeeShops: {type: Array, default: []}
+  coffeeShops: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'CoffeeShop'
+  }
+
+  ]
 });
 
 UserSchema.methods.apiRepr = function() {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const coffeeShopsSchema = mongoose.Schema({
   name: {type: String, required: true},
-  address: {type: String, required: true},
+  address: {type: String, required: true, unique: true},
   rating: {type: Number, required: true},
   description: {type: String},
   price: {type: Number}
@@ -25,6 +25,6 @@ coffeeShopsSchema.methods.apiRepr = function() {
   };
 }
 
-const coffeeShops = mongoose.model('coffeeShop', coffeeShopsSchema);
+const coffeeShops = mongoose.model('CoffeeShop', coffeeShopsSchema);
 
 module.exports = {coffeeShops};

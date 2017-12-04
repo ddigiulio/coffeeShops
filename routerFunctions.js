@@ -1,9 +1,8 @@
 const { coffeeShops } = require('./coffeeshops/models');
 
 function getCoffeeShops(userCoffeeShops) {
-    return coffeeShops
-        .find({"address": {"$in": userCoffeeShops}})
-        .exec()
+    return userCoffeeShops
+
         .then(coffeeShops => {
             return coffeeShops;
         });
@@ -17,14 +16,3 @@ module.exports = {
     getCoffeeShops
 }
 
-
-  // coffeeShops
-  //   .find({"address": {"$in": req.user.coffeeShops}})
-  //   .exec()
-  //   .then(coffeeShops => {
-  //     coffeeShops = coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
-  //     res.json(coffeeShops);
-  //   })
-  //   .catch((err) => {
-  //      res.status(500).json({ message: 'Internal server error' })
-  //   });

@@ -61,12 +61,6 @@ padding: 0;  /* fallback for old browsers */
     display: none;
 }
  
-.coffeePic{
-    position: relative;
-    max-width:100%;
-    max-height:100%;
-}
-
 
 
 #tempBox {
@@ -80,11 +74,16 @@ border-style: solid;
 border-color: #A47D2C;
 border-radius: 5px;
 border-width: 1px;
+
 /*display:inline-block;*/
 /*box-sizing: border-box;*/
 background-color: #FDE9C5;
 
 }
+/*#tempbox .name{
+    text-align: center;
+}*/
+
 
 #splashPage{
 height: 100%;
@@ -102,6 +101,7 @@ background: linear-gradient(to bottom right, #FDE9C5, #A47D2C); /* Standard synt
 .signUpButton{
     margin-top: 5px;
 }
+
 .signUpBox{
 float: right;
 width: 90px;
@@ -109,11 +109,23 @@ width: 90px;
 }
 
 #splashPage h1{
-    padding: 65px;
+    padding-top: 65px;
     text-align: center;
     font-family: 'Baloo', cursive;
     font-size: 80px;
 }
+
+#imgContainer{
+    background-image:url('coffee.jpg');
+    background-position:center;
+    background-repeat: no-repeat;
+    background-size: 1600px;
+    width:1000px;
+    height:200px;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
 #description {
 font-family: Roboto;
 font-size: 15px;
@@ -223,6 +235,7 @@ margin: 5px;
     font-family: 'Baloo', cursive;
     color: #2F2933;
     padding: 0px 5px;
+    text-align: center;
 }
 
 .hoverText{
@@ -487,6 +500,52 @@ html { width: 100%; height:100%; overflow:hidden; }
     font-size: 18px;
     font-family: 'Baloo', cursive;
     color: #2F2933;
+}
+
+.infoBox{
+    width: 550px;
+    height: 35px;
+    position: absolute;
+    margin-left: 460px;
+    z-index: 99999;
+    background-color: #FDE9C5;
+    text-align: center;
+    border-style: solid;
+    border-color: #A47D2C; 
+    border-radius: 5px;
+    border-width: 1px;
+
+}
+.infoBox span{
+    font-size: 18px;
+    font-family: 'Baloo', cursive;
+    color: #2f2933;
+    padding-top: 3px;
+    
+}
+
+.about{
+    position: absolute;
+    /*margin-left: 250px;*/
+    margin-left: 225px;
+    margin-top: 400px;
+    background-color: #FDE9C5;
+    text-align: center;
+    border-style: solid;
+    border-color: #A47D2C; 
+    border-radius: 5px;
+    border-width: 1px;
+    width: 70%;
+
+}
+
+.about span{
+    font-size: 22px;
+    font-family: 'Baloo', cursive;
+    color: #2f2933;
+}
+.hidden3{
+    display: none;
 }
 
 .logOut:hover{

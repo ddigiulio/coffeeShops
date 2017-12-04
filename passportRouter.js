@@ -32,9 +32,13 @@ function createPassportRouter() {
 
     passport.deserializeUser(function (id, done) {
         // debugger;
-        User.findById(id, function (err, user) {
-            done(err, user);
-        });
+        User.findById(id).populate('coffeeShops')
+        .then( function ( user) {
+            done(null, user);
+        })
+        .catch(function(err){
+            done(err,null)
+        })
     });
 
     passport.use(localStrategy);
