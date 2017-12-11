@@ -358,6 +358,7 @@ function showCoffeeShops() {
     // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
     var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
+    var coffeeShopListTemplateMobile =""
     $('ol').empty();
     $.get(myurl).then(coffeeShops => {
         currentCoffeeShops = coffeeShops;
@@ -369,8 +370,16 @@ function showCoffeeShops() {
                 '<h3 class="name">' + coffeeShop.name + '</h3>' +
                 '</div>' +'</li>'
             );
+
+            // coffeeShopListTemplateMobile += (
+            //     '<li>' +
+            //     '<div class=coffeeShopMobile">' +
+            //     '<h3 class="dropName">' + coffeeShop.name + '<h3>' +
+            //     '</div>' + '</li>'
+            // );
         });
         $('.coffeeShops').append(coffeeShopListTemplate);
+        // $('.mobileShops').append(coffeeShopListTemplateMobile);
     });
 }
 
