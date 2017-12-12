@@ -6,9 +6,7 @@ function initAutocomplete() {
         center: testPosition,
         zoom: 14,
         mapTypeId: 'roadmap',
-        mapTypeControlOptions: {
-          position: google.maps.ControlPosition.TOP_RIGHT,
-    },
+        disableDefaultUI: true,
         //code for map background
         styles: [
     {
@@ -130,40 +128,40 @@ function initAutocomplete() {
     }
 ]
     });
-    testPosition= {
-        lat: 47.6253,
-        lng: -122.3222
-    } 
-    searchPlaces(testPosition, map);
+    // testPosition= {
+    //     lat: 47.6253,
+    //     lng: -122.3222
+    // } 
+    // searchPlaces(testPosition, map);
     
     // console.log(testPosition);
-    // var infoWindow = new google.maps.InfoWindow;
-    // if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(function (position) {
-    //         pos = {
-    //             lat: position.coords.latitude,
-    //             lng: position.coords.longitude
-    //         };
+    var infoWindow = new google.maps.InfoWindow;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
 
-    //         infoWindow.setPosition(pos);
-    //         map.setCenter(pos);
-    //         pos = new google.maps.LatLng(pos.lat, pos.lng);
-    //         //cache this position in local storage
-    //         searchPlaces(pos, map);
-    //     }, function () {
-    //         handleLocationError(true, infoWindow, map.getCenter());
-    //     });
-    // } else {
-    //     handleLocationError(false, infoWindow, map.getCenter());
-    // }
+            infoWindow.setPosition(pos);
+            map.setCenter(pos);
+            pos = new google.maps.LatLng(pos.lat, pos.lng);
+            //cache this position in local storage
+            searchPlaces(pos, map);
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
 
-    // function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    //     infoWindow.setPosition(pos);
-    //     infoWindow.setContent(browserHasGeolocation ?
-    //         'Error: The Geolocation service failed.' :
-    //         'Error: Your browser doesn\'t support geolocation.');
-    //     infoWindow.open(map);
-    // }
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
 }
 function searchPlaces(pos, map) {
     // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
@@ -403,10 +401,10 @@ function signUpHandler() {
         
     })
     //now sign up
-    $('button.createAccount').on("click", function(){
+    $('.signUpForm').on("submit", function(event){
         event.preventDefault();
-        var userName = $("form.signUpForm").serializeArray()[0].value;
-        var password = $("form.signUpForm").serializeArray()[1].value;
+        var userName = this.username.value;
+        var password = this.password.value;
         console.log("userName:" + userName + " passWord:" + password)
         jQuery.ajax({
             url: myurl,
@@ -430,12 +428,11 @@ function signUpHandler() {
 }
 
 function logInHandler() {
-    $('button.logIn').on("click", function () {
+    $('#loginForm').on("submit", function (event) {
         event.preventDefault();
+        var userName = this.username.value;
+        var password = this.password.value;
 
-        var userName = $("form").serializeArray()[0].value;
-        var password = $("form").serializeArray()[1].value;
-        console.log(userName, password);
         logIn(userName, password);
 
     });
@@ -447,7 +444,8 @@ function logOutHandler() {
         //  var myurl = "https://agile-coast-54783.herokuapp.com/users/logout";
          var myurl = "http://localhost:8080/users/logout"
           $.get(myurl, function (data) {
-            $('button.logOut').hide();
+            $('.logOutBox').hide();
+            $('.logOut').hide();
             // $('#map').width('100%');
             $('.coffeeShops').empty();
             $('#splashPage').removeClass("hidden1");
@@ -481,7 +479,8 @@ function logIn(userName, password) {
             $("#searchBox").show(); 
             $('#map').removeClass("hidden");
             $('#results').removeClass("hidden");
-            $('button.logOut').show();
+            $('.logOutBox').show();
+            $('.logOut').show();
             $('.signUp').addClass('hidden');
             $('.login').removeClass('hidden');
             initAutocomplete();
