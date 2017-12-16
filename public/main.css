@@ -68,6 +68,9 @@ padding: 0;  /* fallback for old browsers */
     display: none;
 }
  
+ 
+
+
 
 #tempBox {
 
@@ -81,8 +84,7 @@ border-color: #A47D2C;
 border-radius: 5px;
 border-width: 1px;
 
-/*display:inline-block;*/
-/*box-sizing: border-box;*/
+
 background-color: #FDE9C5;
 
 }
@@ -466,14 +468,14 @@ html { width: 100%; height:100%; overflow:hidden; }
 }
 
 .logOutBox{
-    width: 100px;
+    width: 80px;
     height: 35px;
     position: absolute;
     background-color: #FDE9C5;
     z-index: 99999;
 }
 .logOut{
-    width: 100px;
+    width: 80px;
     height: 35px;
     border-style: solid;
     border-color: #A47D2C; 
@@ -531,54 +533,29 @@ html { width: 100%; height:100%; overflow:hidden; }
     color: #2f2933;
 }
 
-/* dropdown */
-.dropdown {
-    position: absolute;
-    z-index: -1;
-    /*margin-top: 50px;
-    margin-left: 50px;*/
 
-  
-}
-
-
-/*.dropdown:hover .dropdown-content {
-    display: block;
-}*/
 
 @media (min-width: 360px) and (max-width: 600px){
 
-     .logOutBox{
+    .logOutBox{
     position: absolute;
     bottom: 0;
     display: none;
     right: 0px;
     }
 
-/*coffeeshops */
+    /*coffeeshops */
 
     .coffeeShops{
     list-style-type: none;  
+    display: none;
     }
 
     .coffeeShops li{
         padding-left: 0px;
     }
     #results {
-
-    text-align: left;
-    position: absolute;
-    bottom: 0px;
-    width: 50%;
-
-    }
-    #tempBox {
-
-    position: absolute;
-    height: auto;
-    width: auto;
-    bottom: 200px !important;
-    left: 50% !important;
+    display: none;
 
     }
 
@@ -588,23 +565,83 @@ html { width: 100%; height:100%; overflow:hidden; }
     .hoverText{
         font-size: 14px;
     }
+    /* slider */
+    .slider {
+    width: auto;
+    text-align: center;
+    overflow: hidden;
+    height: 170px;
+    bottom: 170px;
+    position: relative;
+    }
+    .links{
+       margin-bottom: 1px;
+       height: auto;
+    }
 
-    .hvr-grow {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(0px) translateZ(0);
-  box-shadow: 0 0 1px transparent;
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-property: transform;
-  transition-property: transform;
-}
-.hvr-grow:hover, .hvr-grow:focus, .hvr-grow:active {
-  -webkit-transform: scale(1);
-  transform: scale(1);
+    .links > a {
+  display: inline-flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #FDE9C5;
+  border-style: solid;
+  border-color: #A47D2C;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 0 0.5rem 0;
+  position: relative;
+  border-width: thin;
 }
 
+    .flex-container{
+    position: absolute;
+    bottom: 0px;
+    width: 200px;
+    height: 145px;
+    display: none;
+    left: 25%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar; 
+    -webkit-scroll-snap-points-x: repeat(200px);
+    -ms-scroll-snap-points-x: repeat(200px);
+        scroll-snap-points-x: repeat(200px);
+    -webkit-scroll-snap-type: mandatory;
+    -ms-scroll-snap-type: mandatory;
+    scroll-snap-type: mandatory;
+    }
+
+    .coffeeShopMobile {
+    width: 100%;
+    flex: 0 0 auto;
+    height: 100%;
+    border-style: solid;
+    border-color: #A47D2C;
+    border-radius: 5px;
+    border-width: 1px;
+    background-color: #FDE9C5;
+    
+    }
+
+    .deleteShop{
+    font-size: 14px;
+    border-radius: 15%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: gray;
+    }
+
+    .updateShop{
+    font-size: 14px;
+    border-radius: 15%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: gray;
+    }
 
 
     /*landing page */

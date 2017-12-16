@@ -1,4 +1,5 @@
 var currentCoffeeShops = [];
+var template ="";
 function initAutocomplete() {
 
     var testPosition = new google.maps.LatLng(47.6253, -122.3222)
@@ -356,12 +357,14 @@ function showCoffeeShops() {
     var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
     // var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
-    var coffeeShopListTemplateMobile =""
+    var templateMobile = "";
+    var buttonRefs = ""
     $('ol').empty();
+    $('.links').empty();
+    $('.flex-container').empty();
     $.get(myurl).then(coffeeShops => {
         currentCoffeeShops = coffeeShops;
         coffeeShops.forEach(function (coffeeShop, i) {
-          
             coffeeShopListTemplate += (
                 '<li class="hvr-grow hvr-bubble-top" value="'+ i + '">' + 
                 '<div class="coffeeShop">' +
@@ -369,15 +372,50 @@ function showCoffeeShops() {
                 '</div>' +'</li>'
             );
 
-            // coffeeShopListTemplateMobile += (
-            //     '<li>' +
-            //     '<div class=coffeeShopMobile">' +
-            //     '<h3 class="dropName">' + coffeeShop.name + '<h3>' +
-            //     '</div>' + '</li>'
-            // );
+            buttonRefs += (
+                '<a href="#slide-' + i +'"' + '>' + (i+1) + '</a>'
+            )
+
+            /*template */
+            templateMobile +=  (  
+                '<div class=coffeeShopMobile id="slide-' + i + '"' + "unique=" + coffeeShop.id + '>' +                       
+                '<h3 class="name">' + coffeeShop.name + '</h3>'
+                + '<span class="hoverText">' + "Rating: " + '</span>'
+            );
+        
+        var rating = Math.round(coffeeShop.rating);
+        for (var i=0; i < rating; i++){
+            templateMobile += '<img src="bean.jpg" height="12" width="12">';
+            
+        }
+        templateMobile +="<br>";
+       
+        if (coffeeShop.price != 100){
+
+            var priceString = "";
+            
+            for(var i = 0; i < coffeeShop.price; i++ )
+            {
+                priceString += "$";
+            }
+            templateMobile += '<span class="hoverText">' + "Price: "  + '</span>' + '<span class="priceText">' +  priceString+ '</span>' + '<br>'
+  
+        }
+        if (coffeeShop.description !== "~~~~~!@@!~~~~~")
+        {
+            templateMobile += '<span class="hoverText">' + "Description: " + coffeeShop.description + '</span>'; 
+        } 
+        templateMobile +="<br>";
+        templateMobile += '<button type=button class="deleteShop">' + "Delete Shop" + '</button>' 
+        // templateMobile += '<button type=button class="updateShop">' + "Update Shop" + '</button>'
+        templateMobile += '</div>'
+            /*template */
         });
+  
+        $('.links').prepend(buttonRefs);
         $('.coffeeShops').append(coffeeShopListTemplate);
-        // $('.mobileShops').append(coffeeShopListTemplateMobile);
+        $('.flex-container').append(templateMobile);
+        
     });
 }
 
@@ -391,7 +429,7 @@ function signUpHandler() {
     //first get to signup page
     $('button.signUpButton').on("click", function () {
         $('.login').addClass("hidden");
-        // $('.signUpBox').hide();
+
         $('.signUp').removeClass('hidden');
     });
     $('button.goBack').on("click", function(){
@@ -452,6 +490,7 @@ function logOutHandler() {
             $('#searchBox').addClass("hidden");
             $('#tempBox').addClass("hidden1");
             $('.infoBox').addClass("hidden3");
+            $('.flex-container').css("display", "none")
             
         });
     });
@@ -473,7 +512,7 @@ function logIn(userName, password) {
         success: function (data) {
             $('form')[0].reset();
             currentCoffeeShops = [];
-            console.log("here");
+
             $('#splashPage').addClass("hidden1");
             $('#searchBox').removeClass("hidden");
             $("#searchBox").show(); 
@@ -483,11 +522,38 @@ function logIn(userName, password) {
             $('.logOut').show();
             $('.signUp').addClass('hidden');
             $('.login').removeClass('hidden');
+            $('.flex-container').css("display", "flex")
             initAutocomplete();
             showCoffeeShops();
 
         }
     });
+
+}
+
+function deleteHandler(){
+    $('.flex-container').on("click", ".deleteShop", function(event){
+        event.preventDefault()
+
+      var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops/";
+    // var myurl = "http://localhost:8080/coffeeshops/";
+    event.preventDefault();
+        $.ajax({
+            url: myurl +$(this).parent().attr("unique"),
+            type: "Delete",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+               showCoffeeShops();
+                
+            }, 
+            error: function(data){
+                // console.log(data); 
+                console.log("error")            
+            }
+        });
+
+    })
 }
 
 function hoverHandler(){
@@ -544,8 +610,8 @@ function hoverHandler(){
 }
 
 function deleteUsers(){
-    //  var myurl = "https://agile-coast-54783.herokuapp.com/users/deleteAll";
-     var myurl = "http://localhost:8080/users/deleteAll";
+     var myurl = "https://agile-coast-54783.herokuapp.com/users/deleteAll";
+    //  var myurl = "http://localhost:8080/users/deleteAll";
     $('button.deleteUsers').on("click", function () {
         event.preventDefault();
         jQuery.ajax({
@@ -590,11 +656,18 @@ function deleteAll(){
         });
     });
 }
-$(deleteAll);
+// $(window).load(function() {
+//   $('.flex-container').flexslider({
+//     animation: "slide"
+//   });
+// });
+// $(deleteAll);
+$(deleteHandler);
+$(updateHandler);
 $(signUpHandler);
 $(logInHandler);
 $(logOutHandler);
 $(hoverHandler);
-$(deleteUsers);
+// $(deleteUsers);
 
 

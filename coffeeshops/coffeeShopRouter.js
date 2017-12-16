@@ -12,9 +12,8 @@ const { coffeeShops } = require('./models');
 
 router.get('/', (req, res) => {
 
-  
-      var coffeeShops = req.user.coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
-      res.json(coffeeShops);
+  var coffeeShops = req.user.coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
+  res.json(coffeeShops);
 
 
 });
@@ -57,11 +56,25 @@ router.post('/', jsonParser,
   });
 
 router.delete('/:id', (req, res) => {
-  coffeeShops
-    .findByIdAndRemove(req.params.id)
-    .exec()
-    .then(coffeeshop => res.status(204).end())
-    .catch(err => res.status(500).json({ message: 'Internal server error' }));
+
+  let user = req.user
+  var index;
+  user.coffeeShops.forEach((coffeeshop, i) => {
+    if (coffeeshop.id === req.params.id) {
+      index = i;
+      return;
+    }
+  })
+
+  user.coffeeShops.splice(index, 1)
+  user.save().
+    then(function (user) {
+      res.json("successfully deleted")
+    })
+
+
+
+
 });
 
 router.get('/deleteAll', (req, res) => {
@@ -70,38 +83,10 @@ router.get('/deleteAll', (req, res) => {
 })
 
 //doesnt have to be this way:  might not need to have ID in body as long as ID is in endpoint?
-//need to have a way to refer to which item I want to update and make sure that it is correct.
-//can also manually add ID in body request upon update through API?
 
 router.put('/:id', (req, res) => {
-  // ensure that the id in the request path and the one in request body match
-  // just so we dont update the wrong item 
-  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    const message = (
-      `Request path id (${req.params.id}) and request body id ` +
-      `(${req.body.id}) must match`);
-    console.error(message);
-    res.status(400).json({ message: message });
-  }
+ 
 
-  const toUpdate = {};
-  const updateableFields = ['name', 'address'];
-
-  //eventually have a set of possible fields to update so make logic to check for that now
-  //if changing schema make sure PUT reflects those changes
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      toUpdate[field] = req.body[field];
-    }
-  });
-
-  coffeeShops
-    // all key/value pairs in toUpdate will be updated -- that's what `$set` does
-    //remember that $set is targeting attributes in the object where toUpdate represents all fields 
-    .findByIdAndUpdate(req.params.id, { $set: toUpdate })
-    .exec()
-    .then(coffeeshop => res.status(204).end())
-    .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 module.exports = { router };
