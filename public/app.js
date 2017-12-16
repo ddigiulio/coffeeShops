@@ -165,8 +165,8 @@ function initAutocomplete() {
     }
 }
 function searchPlaces(pos, map) {
-    // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
-    var myurl = "http://localhost:8080/coffeeshops";
+    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    // var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
     var markers = [];
     pos = pos;
@@ -354,8 +354,8 @@ function searchPlaces(pos, map) {
 
 function showCoffeeShops() {
     
-    // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
-    var myurl = "http://localhost:8080/coffeeshops";
+    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    // var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
     var templateMobile = "";
     var buttonRefs = ""
@@ -424,8 +424,8 @@ function showInfo(){
 }
 
 function signUpHandler() {
-    // var myurl = "https://agile-coast-54783.herokuapp.com/users/";
-    var myurl = "http://localhost:8080/users/"
+    var myurl = "https://agile-coast-54783.herokuapp.com/users/";
+    // var myurl = "http://localhost:8080/users/"
     //first get to signup page
     $('button.signUpButton').on("click", function () {
         $('.login').addClass("hidden");
@@ -479,8 +479,8 @@ function logInHandler() {
 function logOutHandler() {
     $('button.logOut').on("click", function(){
          event.preventDefault();
-        //  var myurl = "https://agile-coast-54783.herokuapp.com/users/logout";
-         var myurl = "http://localhost:8080/users/logout"
+         var myurl = "https://agile-coast-54783.herokuapp.com/users/logout";
+        //  var myurl = "http://localhost:8080/users/logout"
           $.get(myurl, function (data) {
             $('.logOutBox').hide();
             $('.logOut').hide();
@@ -497,8 +497,8 @@ function logOutHandler() {
 }
 
 function logIn(userName, password) {
-    // var myurl = "https://agile-coast-54783.herokuapp.com/users/login";
-    var myurl = "http://localhost:8080/users/login";
+    var myurl = "https://agile-coast-54783.herokuapp.com/users/login";
+    // var myurl = "http://localhost:8080/users/login";
     jQuery.ajax({
         url: myurl,
         type: "POST",
@@ -535,8 +535,8 @@ function deleteHandler(){
     $('.flex-container').on("click", ".deleteShop", function(event){
         event.preventDefault()
 
-    //   var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops/";
-    var myurl = "http://localhost:8080/coffeeshops/";
+      var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops/";
+    // var myurl = "http://localhost:8080/coffeeshops/";
     event.preventDefault();
         $.ajax({
             url: myurl +$(this).parent().attr("unique"),
@@ -610,8 +610,8 @@ function hoverHandler(){
 }
 
 function deleteUsers(){
-    //  var myurl = "https://agile-coast-54783.herokuapp.com/users/deleteAll";
-     var myurl = "http://localhost:8080/users/deleteAll";
+     var myurl = "https://agile-coast-54783.herokuapp.com/users/deleteAll";
+    //  var myurl = "http://localhost:8080/users/deleteAll";
     $('button.deleteUsers').on("click", function () {
         event.preventDefault();
         jQuery.ajax({
