@@ -77,12 +77,6 @@ router.delete('/:id', (req, res) => {
 
 });
 
-router.get('/deleteAll', (req, res) => {
-  coffeeShops.remove()
-    .then(res.json({ message: "Deleted all" }))
-})
-
-//doesnt have to be this way:  might not need to have ID in body as long as ID is in endpoint?
 
 router.put('/:id', (req, res) => {
  
