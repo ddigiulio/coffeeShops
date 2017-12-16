@@ -663,7 +663,7 @@ function deleteAll(){
 // });
 // $(deleteAll);
 $(deleteHandler);
-$(updateHandler);
+// $(updateHandler);
 $(signUpHandler);
 $(logInHandler);
 $(logOutHandler);
