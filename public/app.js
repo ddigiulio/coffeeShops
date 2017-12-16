@@ -129,13 +129,7 @@ function initAutocomplete() {
     }
 ]
     });
-    // testPosition= {
-    //     lat: 47.6253,
-    //     lng: -122.3222
-    // } 
-    // searchPlaces(testPosition, map);
-    
-    // console.log(testPosition);
+;
     var infoWindow = new google.maps.InfoWindow;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -174,33 +168,6 @@ function searchPlaces(pos, map) {
         event.preventDefault();
         $("#searchBox").hide();
         
-        // var locationTemp = $(".search-input").val();
-        // new Promise(function(resolve, reject) {
-        //     if(!locationTemp) {
-        //         resolve();
-        //     }
-        //     else({
-        //         getRequest(locationTemp)
-
-        //     })    
-            // do your async stuff, and then resolve it
-        // }).then(function(){
-
-        // });
-        
-    
-        // if (locationTemp != "") {
-        //     var promise = new Promise(function (resolve, reject){
-        //         getRequest(locationTemp);
-        //     }, callback);
-        //     function callback(results){
-        //         if(results){
-        //             resolve(results);
-        //         } 
-        //     }
-        // }
-        // console.log(pos);
-        //start a new search based on input but for right now use hardcoded location
         
         var service = new google.maps.places.PlacesService(map);
         var promise = new Promise(function (resolve, reject) {
@@ -227,7 +194,6 @@ function searchPlaces(pos, map) {
                 if (places.length == 0) {
                     return;
                 }
-                // console.log(places);
                 markers.forEach(function (marker) {
                     marker.setMap(null);
                 });
@@ -345,7 +311,7 @@ function searchPlaces(pos, map) {
                     } else {
                         bounds.extend(place.geometry.location);
                     }
-                    // }//here
+                   
                     map.fitBounds(bounds);
                 });
             });
@@ -407,7 +373,6 @@ function showCoffeeShops() {
         } 
         templateMobile +="<br>";
         templateMobile += '<button type=button class="deleteShop">' + "Delete Shop" + '</button>' 
-        // templateMobile += '<button type=button class="updateShop">' + "Update Shop" + '</button>'
         templateMobile += '</div>'
             /*template */
         });
@@ -419,14 +384,11 @@ function showCoffeeShops() {
     });
 }
 
-function showInfo(){
-
-}
 
 function signUpHandler() {
     var myurl = "https://agile-coast-54783.herokuapp.com/users/";
     // var myurl = "http://localhost:8080/users/"
-    //first get to signup page
+
     $('button.signUpButton').on("click", function () {
         $('.login').addClass("hidden");
 
@@ -438,7 +400,7 @@ function signUpHandler() {
         $('.login').removeClass('hidden');
         
     })
-    //now sign up
+  
     $('.signUpForm').on("submit", "button", function(event){
         event.preventDefault();
         var userName = this.username.value;
@@ -458,7 +420,7 @@ function signUpHandler() {
                 logIn(data.username, data.password)
             }, 
             error: function(data){
-                // console.log(data);             
+                          
             }
         });
     })
@@ -484,7 +446,7 @@ function logOutHandler() {
           $.get(myurl, function (data) {
             $('.logOutBox').hide();
             $('.logOut').hide();
-            // $('#map').width('100%');
+
             $('.coffeeShops').empty();
             $('#splashPage').removeClass("hidden1");
             $('#searchBox').addClass("hidden");
@@ -548,7 +510,7 @@ function deleteHandler(){
                 
             }, 
             error: function(data){
-                // console.log(data); 
+                 
                 console.log("error")            
             }
         });
@@ -609,60 +571,12 @@ function hoverHandler(){
     });
 }
 
-function deleteUsers(){
-     var myurl = "https://agile-coast-54783.herokuapp.com/users/deleteAll";
-    //  var myurl = "http://localhost:8080/users/deleteAll";
-    $('button.deleteUsers').on("click", function () {
-        event.preventDefault();
-        jQuery.ajax({
-            url: myurl,
-            type: "Delete",
-            data: JSON.stringify
-                ({
-                }),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                console.log("successfully deleted USERS")
-                
-            }, 
-            error: function(data){
-                // console.log(data);             
-            }
-        });
-    });
-  
-}
-
-function deleteAll(){
-    var myurl = "http://localhost:8080/coffeeShops/deleteAll";
-    $('button.deleteAll').on("click", function () {
-        event.preventDefault();
-        jQuery.ajax({
-            url: myurl,
-            type: "Get",
-            data: JSON.stringify
-                ({
-                }),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                console.log(data)
-                
-            }, 
-            error: function(data){
-                console.log(data);             
-            }
-        });
-    });
-}
 
 $(deleteHandler);
-// $(updateHandler);
 $(signUpHandler);
 $(logInHandler);
 $(logOutHandler);
 $(hoverHandler);
-// $(deleteUsers);
+
 
 
