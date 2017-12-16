@@ -37,7 +37,6 @@ router.put('/', (req, res) => {
 
 router.post('/', (req, res) => {
   let { username, password} = req.body;//those 4 properties being picked out from req.body from AJAX request
-  console.log(req.body)
 
   return User
     .find({ username })
@@ -51,7 +50,6 @@ router.post('/', (req, res) => {
       return User.hashPassword(password)
     })
     .then(hash => {
-      console.log("HERE");
       return User
         .create({
           username: username,
