@@ -129,38 +129,42 @@ function initAutocomplete() {
     }
 ]
     });
-;
-    var infoWindow = new google.maps.InfoWindow;
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+        testPosition= {
+        lat: 47.6253,
+        lng: -122.3222
+    } 
+    searchPlaces(testPosition, map);
+    // var infoWindow = new google.maps.InfoWindow;
+    // if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(function (position) {
+    //         pos = {
+    //             lat: position.coords.latitude,
+    //             lng: position.coords.longitude
+    //         };
 
-            infoWindow.setPosition(pos);
-            map.setCenter(pos);
-            pos = new google.maps.LatLng(pos.lat, pos.lng);
-            //cache this position in local storage
-            searchPlaces(pos, map);
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
+    //         infoWindow.setPosition(pos);
+    //         map.setCenter(pos);
+    //         pos = new google.maps.LatLng(pos.lat, pos.lng);
+    //         //cache this position in local storage
+    //         searchPlaces(pos, map);
+    //     }, function () {
+    //         handleLocationError(true, infoWindow, map.getCenter());
+    //     });
+    // } else {
+    //     handleLocationError(false, infoWindow, map.getCenter());
+    // }
 
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-            'Error: The Geolocation service failed.' :
-            'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-    }
+    // function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    //     infoWindow.setPosition(pos);
+    //     infoWindow.setContent(browserHasGeolocation ?
+    //         'Error: The Geolocation service failed.' :
+    //         'Error: Your browser doesn\'t support geolocation.');
+    //     infoWindow.open(map);
+    // }
 }
 function searchPlaces(pos, map) {
-    // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
-    var myurl = "http://localhost:8080/coffeeshops";
+    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    // var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
     var markers = [];
     pos = pos;
