@@ -159,8 +159,8 @@ function initAutocomplete() {
     }
 }
 function searchPlaces(pos, map) {
-    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
-    // var myurl = "http://localhost:8080/coffeeshops";
+    // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
     var markers = [];
     pos = pos;
