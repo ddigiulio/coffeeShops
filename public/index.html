@@ -35,32 +35,65 @@
                 <input type="password" name="password" placeholder="Password" required="required"  />
                 <button type="submit" class="btn btn-primary btn-block btn-large createAccount">Create Account</button>
             </form>
-            <button class="btn btn-primary btn-block  goBack">Back to Log In page</button>
+            <button class="btn btn-primary btn-block btn-large goBack">Go Back</button>
         </div>
-        <div class="about">
-            <span> The Perfect Cup is designed to make it easier to find new and interesting coffee shops near you!  <br/> Log in or create a free account to start exploring! </span>
-        </div>
+
     </div>
     <div id="tempBox" class="hidden1">
     </div>
-    <div class="searchBoxWrapper">
+    
+    <!--my search so far
+        <div class="searchBoxWrapper">
     <div id="searchBox" class="hidden">
         <p class="first"> Searching for the perfect cup?</p>
         <p class="second">FIND A COFFEE SHOP NEAR YOU! </p>
         <form  class="search-wrapper cf">
-        <input type="text" class="search-input" placeholder="Current Location" readonly>
-        <button type="submit" class="search-start">Search</button>-->
+        <input type="text" class="search-input" placeholder="Current Location" >
+        <button type="submit" class="search-start">Search</button>
        </form>
     </div>
+    </div>-->
+
+ <div class="pac-card" id="pac-card">
+      <div>
+        <div id="title">
+        </div>
+        <div id="type-selector" class="pac-controls">
+          <input type="radio" name="type" id="changetype-all" checked="checked">
+          <label for="changetype-all">All</label>
+
+          <input type="radio" name="type" id="changetype-establishment">
+          <label for="changetype-establishment">Establishments</label>
+
+          <input type="radio" name="type" id="changetype-address">
+          <label for="changetype-address">Addresses</label>
+
+          <input type="radio" name="type" id="changetype-geocode">
+          <label for="changetype-geocode">Geocodes</label>
+        </div>
+        <div id="strict-bounds-selector" class="pac-controls">
+          <input type="checkbox" id="use-strict-bounds" value="">
+          <label for="use-strict-bounds">Strict Bounds</label>
+        </div>
+      </div>
+      <div id="pac-container">
+        <input id="pac-input" type="text"
+            placeholder="Enter a location">
+      </div>
     </div>
 
     <div class=logOutBox>
         <button class="logOut">Log Out</button>
     </div>
-    <div class="infoBox hidden3" >
+    <!--<div class="infoBox hidden3" >
         <span> Click on a coffeeshop icon to see its info and save it to your profile</span>
-    </div>
+    </div>-->
     <div id="map">
+    </div>
+    <div id="infowindow-content">
+    <img src="" width="16" height="16" id="place-icon">
+    <span id="place-name"  class="title"></span><br>
+    <span id="place-address"></span>
     </div>
     <div class="slider">
     <div class="links">

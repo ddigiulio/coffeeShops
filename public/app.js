@@ -1,13 +1,13 @@
 var currentCoffeeShops = [];
 var template ="";
 function initAutocomplete() {
-
+    var pos;
     var testPosition = new google.maps.LatLng(47.6253, -122.3222)
     var map = new google.maps.Map(document.getElementById('map'), {
         center: testPosition,
         zoom: 14,
         mapTypeId: 'roadmap',
-        disableDefaultUI: true,
+        // disableDefaultUI: true,
         //code for map background
         styles: [
     {
@@ -129,11 +129,7 @@ function initAutocomplete() {
     }
 ]
     });
-    //     testPosition= {
-    //     lat: 47.6253,
-    //     lng: -122.3222
-    // } 
-    // searchPlaces(testPosition, map);
+
     var infoWindow = new google.maps.InfoWindow;
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -146,7 +142,7 @@ function initAutocomplete() {
             map.setCenter(pos);
             pos = new google.maps.LatLng(pos.lat, pos.lng);
             //cache this position in local storage
-            searchPlaces(pos, map);
+            // searchPlaces(pos, map);
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
@@ -161,10 +157,19 @@ function initAutocomplete() {
             'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
     }
+
+     var card = document.getElementById('pac-card');
+     var input = document.getElementById('pac-input');
+     var types = document.getElementById('type-selector');
+     var strictBounds = document.getElementById('strict-bounds-selector');
+
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+
 }
 function searchPlaces(pos, map) {
-    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
-    // var myurl = "http://localhost:8080/coffeeshops";
+    // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
     var markers = [];
     pos = pos;
@@ -259,16 +264,23 @@ function searchPlaces(pos, map) {
                         var currentShop = places[markers[i].placeRef];
 
                         if (currentShop.price_level == undefined) {
-                            currentShop.price_level = 100;
+                            currentShop.price_level = "Not provided";
                         }
 
-                        if (currentShop.opening_hours) {
+                        if (currentShop.rating == undefined){
+                            currentShop.rating = "Not provided"
+                        }
+                        if (currentShop.opening_hours == undefined){
+                            currentShop.opening_hours = "Not provided"
+                        }
+                        else if (currentShop.opening_hours) {
                             if (currentShop.opening_hours.open_now) {
-                                status = "Open Now"
+                                status = "Open Now";
                             }
-                            else {
-                                status = "Closed"
+                            else if(!currentShop.opening_hours.open_now){
+                                status = "Closed";
                             }
+                          
                         }
 
                         infowindow.setContent( currentShop.name + '<br>' +
@@ -324,8 +336,8 @@ function searchPlaces(pos, map) {
 
 function showCoffeeShops() {
     
-    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
-    // var myurl = "http://localhost:8080/coffeeshops";
+    // var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
     var templateMobile = "";
     var buttonRefs = ""
@@ -390,8 +402,8 @@ function showCoffeeShops() {
 
 
 function signUpHandler() {
-    var myurl = "https://agile-coast-54783.herokuapp.com/users/";
-    // var myurl = "http://localhost:8080/users/"
+    // var myurl = "https://agile-coast-54783.herokuapp.com/users/";
+    var myurl = "http://localhost:8080/users/"
 
     $('button.signUpButton').on("click", function () {
         $('.login').addClass("hidden");
@@ -446,8 +458,8 @@ function logInHandler() {
 function logOutHandler() {
     $('button.logOut').on("click", function(){
          event.preventDefault();
-         var myurl = "https://agile-coast-54783.herokuapp.com/users/logout";
-        //  var myurl = "http://localhost:8080/users/logout"
+        //  var myurl = "https://agile-coast-54783.herokuapp.com/users/logout";
+         var myurl = "http://localhost:8080/users/logout"
           $.get(myurl, function (data) {
             $('.logOutBox').hide();
             $('.logOut').hide();
@@ -464,8 +476,8 @@ function logOutHandler() {
 }
 
 function logIn(userName, password) {
-    var myurl = "https://agile-coast-54783.herokuapp.com/users/login";
-    // var myurl = "http://localhost:8080/users/login";
+    // var myurl = "https://agile-coast-54783.herokuapp.com/users/login";
+    var myurl = "http://localhost:8080/users/login";
     jQuery.ajax({
         url: myurl,
         type: "POST",
@@ -502,8 +514,8 @@ function deleteHandler(){
     $('.flex-container').on("click", ".deleteShop", function(event){
         event.preventDefault()
 
-      var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops/";
-    // var myurl = "http://localhost:8080/coffeeshops/";
+    //   var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops/";
+    var myurl = "http://localhost:8080/coffeeshops/";
     event.preventDefault();
         $.ajax({
             url: myurl +$(this).parent().attr("unique"),

@@ -24,7 +24,7 @@ router.post('/', jsonParser,
     let user = req.user;
     let address = req.body.address;
 
-    const requiredFields = ['name', 'address', 'rating'];
+    const requiredFields = ['name', 'address'];
     for (let i = 0; i < requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
