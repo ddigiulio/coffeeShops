@@ -20,43 +20,7 @@ body {
     /* fallback for old browsers */
 }
 
-#searchBox {
-    width: 450px;
-    height: 180px;
-    position: relative;
-    /*display: none;*/
-    
-    margin: 0 auto;
-    border-style: solid;
-    border-color: #A47D2C;
-    border-radius: 5px;
-    border-width: 1px;
-    z-index: 9999;
-    background-color: #FDE9C5;
-    /*background-image: url("coffee.jpg");*/
-    
-    border-width: thin
-}
-.searchBoxWrapper {
-    position: absolute;
-    width: 100%;
-    margin-top: 200px
-}
-#searchBox p.first {
-    text-align: center;
-    font-size: 30px;
-    font-family: 'Baloo', cursive;
-    margin-top: 5px;
-    color: #2F2933
-}
-#searchBox p.second {
-    text-align: left;
-    font-size: 16px;
-    margin-top: 8px;
-    text-align: center;
-    font-family: 'Baloo', cursive;
-    color: #2F2933
-}
+
 .hidden {
     display: none;
 }
@@ -127,8 +91,11 @@ body {
     display: inline;
 }
 .pac-card {
-    margin: 10px 10px 0 0;
-    border-radius: 2px 0 0 2px;
+    margin: 0px 10px 0 0;
+    border-radius: 5px;
+    border-width: thin;
+    border-color: #A47D2C;
+    border-style: solid;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     outline: none;
@@ -138,7 +105,7 @@ body {
     z-index: 999999;
 }
 #pac-container {
-    padding-bottom: 12px;
+    
     margin-right: 12px;
 }
 .pac-controls {
@@ -151,10 +118,13 @@ body {
     font-weight: 300;
 }
 #pac-input {
+    margin-top: 10px;
     background-color: #fff;
     font-family: Roboto;
-    font-size: 15px;
+    font-size: 20px;
     font-weight: 300;
+    height: 40px;
+    color: black;
     margin-left: 12px;
     padding: 0 11px 0 13px;
     text-overflow: ellipsis;
@@ -164,11 +134,14 @@ body {
     border-color: #4d90fe;
 }
 #title {
-    color: #fff;
-    background-color: #4d90fe;
-    font-size: 25px;
-    font-weight: 500;
+    color: black;
+    background-color: #FDE9C5;
+    border-bottom: 1px solid #A47D2C;
     padding: 6px 12px;
+    text-align: center;
+    font-family: 'Baloo', cursive;
+    font-size: 30px;
+
 }
 .coffeeShops {
     list-style-type: none;
@@ -237,105 +210,6 @@ body {
 }
 /* Form wrapper styling */
 
-.search-wrapper {
-    width: 220px;
-    /*position: absolute;*/
-    
-    margin: 0 auto;
-    margin-top: 25px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .4) inset, 0 1px 0 rgba(255, 255, 255, .2);
-}
-/* Form text input */
-
-.search-wrapper input {
-    /*position: absolute;*/
-    
-    width: 200px;
-    height: 50px;
-    padding: 10px 5px;
-    border-style: solid none solid solid;
-    border-width: thin;
-    border-color: #93BFB5;
-    float: left;
-    font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
-    /*border: 0;*/
-    
-    background: #EEE;
-    border-radius: 3px 0 0 3px;
-}
-.search-wrapper input:focus {
-    outline: 0;
-    background: #fff;
-    /*box-shadow: 0 0 2px rgba(0,0,0,.8) inset;*/
-}
-.search-wrapper input::-webkit-input-placeholder {
-    /*color: #999;*/
-    
-    font-weight: normal;
-    font-style: italic;
-}
-.search-wrapper input:-moz-placeholder {
-    /*color: #999;*/
-    
-    font-weight: normal;
-    font-style: italic;
-}
-.search-wrapper input:-ms-input-placeholder {
-    /*color: #999;*/
-    
-    font-weight: normal;
-    font-style: italic;
-}
-/* Form submit button */
-
-.search-wrapper button {
-    overflow: visible;
-    position: absolute;
-    float: right;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
-    height: 50px;
-    width: 72px;
-    font: bold 15px/40px 'lucida sans', 'trebuchet MS', 'Tahoma';
-    color: white;
-    text-transform: uppercase;
-    background: #EB5338;
-    border-radius: 0 3px 3px 0;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, .3);
-}
-.search-wrapper button:hover {
-    background: #e54040;
-}
-.search-wrapper button:active,
-.search-wrapper button:focus {
-    background: #c42f2f;
-    outline: 0;
-}
-.search-wrapper button:before {
-    /* left arrow */
-    
-    content: '';
-    position: absolute;
-    border-width: 8px 8px 8px 0;
-    border-style: solid solid solid none;
-    border-color: transparent #d83c3c transparent;
-    top: 12px;
-    left: -6px;
-}
-.search-wrapper button:hover:before {
-    border-right-color: #e54040;
-}
-.search-wrapper button:focus:before,
-.search-wrapper button:active:before {
-    border-right-color: #c42f2f;
-}
-.search-wrapper button::-moz-focus-inner {
-    /* remove extra button spacing for Mozilla Firefox */
-    
-    border: 0;
-    padding: 0;
-}
 .hvr-grow {
     display: inline-block;
     vertical-align: middle;
@@ -561,16 +435,145 @@ html {
         height: 185px;
         bottom: 35px
     }
+
+      .signUp {
+        position: absolute;
+        left: 50%;
+        margin: -150px 0 0 -150px;
+        width: 300px;
+        height: 185px;
+        bottom: 35px
+    }
     #splashPage h1 {
         font-size: 55px;
         text-align: center;
         padding-top: 30px
     }
+
+     .coffeeShops {
+        list-style-type: none;
+        display: none;
+    }
+    .coffeeShops li {
+        padding-left: 0px;
+    }
+    #results {
+        display: none;
+    }
+    .name {
+        font-size: 20px;
+    }
+    .hoverText {
+        font-size: 14px;
+    }
+    /* slider */
+    
+    .slider {
+        width: auto;
+        text-align: center;
+        overflow: hidden;
+        height: 170px;
+        bottom: 170px;
+        position: relative;
+    }
+    .links {
+        margin-bottom: 1px;
+        height: auto;
+    }
+    .links > a {
+        display: inline-flex;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: #FDE9C5;
+        border-style: solid;
+        border-color: #A47D2C;
+        text-decoration: none;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 0 0.5rem 0;
+        position: relative;
+        border-width: thin;
+    }
+    .flex-container {
+        position: absolute;
+        bottom: 0px;
+        width: 200px;
+        height: 145px;
+        display: none;
+        left: 25%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        -webkit-scroll-snap-points-x: repeat(200px);
+        -ms-scroll-snap-points-x: repeat(200px);
+        scroll-snap-points-x: repeat(200px);
+        -webkit-scroll-snap-type: mandatory;
+        -ms-scroll-snap-type: mandatory;
+        scroll-snap-type: mandatory;
+    }
+    .coffeeShopMobile {
+        width: 100%;
+        flex: 0 0 auto;
+        height: 100%;
+        border-style: solid;
+        border-color: #A47D2C;
+        border-radius: 5px;
+        border-width: 1px;
+        background-color: #FDE9C5;
+    }
+    .deleteShop {
+        font-size: 14px;
+        border-radius: 15%;
+        border-width: 1px;
+        border-style: solid;
+        border-color: gray;
+    }
+
+     .logOutBox {
+        position: absolute;
+        bottom: 0;
+        display: none;
+        right: 0px;
+    }
+
+       .pac-card{
+        width: 100%;
+        left: 0px !important;
+    }
+    #pac-input{
+        width:95%;
+    }
+ 
 }
 /*iphone 7+ */
 
 @media (min-width: 414px) and (max-height: 736px) {
+      .logOutBox {
+        position: absolute;
+        bottom: 0;
+        display: none;
+        right: 0px;
+    }
+    .pac-card{
+        width: 100%;
+        left: 0px !important;
+    }
+    #pac-input{
+        width:95%;
+    }
     .login {
+        position: absolute;
+        left: 50%;
+        margin: -150px 0 0 -150px;
+        width: 300px;
+        height: 185px;
+        bottom: 50px
+    }
+
+     .signUp {
         position: absolute;
         left: 50%;
         margin: -150px 0 0 -150px;
@@ -583,11 +586,104 @@ html {
         text-align: center;
         padding-top: 40px
     }
+
+    /*coffeeshops*/
+     .coffeeShops {
+        list-style-type: none;
+        display: none;
+    }
+    .coffeeShops li {
+        padding-left: 0px;
+    }
+    #results {
+        display: none;
+    }
+    .name {
+        font-size: 20px;
+    }
+    .hoverText {
+        font-size: 18px;
+    }
+    /* slider */
+    
+    .slider {
+        width: auto;
+        text-align: center;
+        overflow: hidden;
+        height: 170px;
+        bottom: 170px;
+        position: relative;
+    }
+    .links {
+        margin-bottom: 1px;
+        height: auto;
+    }
+    .links > a {
+        display: inline-flex;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: #FDE9C5;
+        border-style: solid;
+        border-color: #A47D2C;
+        text-decoration: none;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 0 0.5rem 0;
+        position: relative;
+        border-width: thin;
+    }
+    .flex-container {
+        position: absolute;
+        bottom: 0px;
+        width: 200px;
+        height: 145px;
+        display: none;
+        left: 25%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        -webkit-scroll-snap-points-x: repeat(200px);
+        -ms-scroll-snap-points-x: repeat(200px);
+        scroll-snap-points-x: repeat(200px);
+        -webkit-scroll-snap-type: mandatory;
+        -ms-scroll-snap-type: mandatory;
+        scroll-snap-type: mandatory;
+    }
+    .coffeeShopMobile {
+        width: 100%;
+        flex: 0 0 auto;
+        height: 100%;
+        border-style: solid;
+        border-color: #A47D2C;
+        border-radius: 5px;
+        border-width: 1px;
+        background-color: #FDE9C5;
+    }
+    .deleteShop {
+        font-size: 14px;
+        border-radius: 15%;
+        border-width: 1px;
+        border-style: solid;
+        border-color: gray;
+    }
+ 
 }
 /*iphone x*/
 
 @media (min-width: 375px) and (min-height: 800px) {
     .login {
+        position: absolute;
+        left: 50%;
+        margin: -150px 0 0 -150px;
+        width: 300px;
+        height: 185px;
+        bottom: 35px
+    }
+
+    .signUp {
         position: absolute;
         left: 50%;
         margin: -150px 0 0 -150px;
@@ -607,6 +703,14 @@ html {
 /* iphone 7 and 8 */
 
 @media (min-width: 360px) and (max-width: 375px) {
+
+    .pac-card{
+        width: 100%;
+        left: 0px !important;
+    }
+    #pac-input{
+        width:95%;
+    }
     .logOutBox {
         position: absolute;
         bottom: 0;
@@ -614,6 +718,15 @@ html {
         right: 0px;
     }
     .login {
+        position: absolute;
+        left: 50%;
+        margin: -150px 0 0 -150px;
+        width: 300px;
+        height: 185px;
+        bottom: 25px
+    }
+
+      .signUp {
         position: absolute;
         left: 50%;
         margin: -150px 0 0 -150px;
@@ -713,50 +826,13 @@ html {
     }
     /*landing page */
     
-    .about {
-        margin: 0 auto;
-        bottom: 0px;
-    }
     #splashPage h1 {
         font-size: 50px;
         text-align: center;
     }
-    .about span {
-        font-size: 15px;
-        font-family: 'Baloo', cursive;
-        color: #2f2933;
-    }
-    /*searchbox */
-    
-    #searchBox {
-        width: 250px;
-        height: 180px;
-        position: relative;
-        margin: 0 auto;
-    }
-    .searchBoxWrapper {
-        position: absolute;
-        width: 100%;
-        margin-top: 0;
-    }
-    #searchBox p.first {
-        text-align: center;
-        font-size: 18px;
-        font-family: 'Baloo', cursive;
-        margin-top: 5px;
-        color: #2F2933
-    }
-    .search-wrapper input {
-        /*position: absolute;*/
-        
-        width: 150px;
-        height: 40px;
-    }
-    .search-wrapper button {
-        height: 40px;
-    }
+
+
 }
-/* iphone 5 */
 
 .hidden3 {
     display: none;
