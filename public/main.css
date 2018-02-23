@@ -851,5 +851,6 @@ input:focus {
         background-color: #FDE9C5;
         border-color: #A47D2C;
         padding: 5px;
+        border-radius: 5px;
     }
 }
