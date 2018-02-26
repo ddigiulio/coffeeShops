@@ -399,7 +399,20 @@
     }
     
 }
+@media (min-width: 768px){
+    #splashPage {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        /* position: relative; */
+        background-image: url("coffeeshopbackground.jpg");
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-size: 2000px;
+    }
 
+}
 .hidden3 {
     display: none;
 }
