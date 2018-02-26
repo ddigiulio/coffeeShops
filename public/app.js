@@ -210,7 +210,7 @@ function initAutocomplete() {
 
 }
 function searchPlaces(pos, map) {
-    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    var myurl = "https://theperfectcup.herokuapp.com/coffeeshops";
     // var myurl = "http://localhost:8080/coffeeshops";
     var prevMarkers = [];
     var markers = [];
@@ -375,7 +375,7 @@ function searchPlaces(pos, map) {
 
 function showCoffeeShops() {
 
-    var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops";
+    var myurl = "https://theperfectcup.herokuapp.com/coffeeshops";
     // var myurl = "http://localhost:8080/coffeeshops";
     var coffeeShopListTemplate = "";
     var templateMobile = "";
@@ -439,7 +439,7 @@ function showCoffeeShops() {
 
 
 function signUpHandler() {
-    var myurl = "https://agile-coast-54783.herokuapp.com/users/";
+    var myurl = "https://theperfectcup.herokuapp.com/users/";
     // var myurl = "http://localhost:8080/users/"
 
     $('button.signUpButton').on("click", function () {
@@ -495,7 +495,7 @@ function logInHandler() {
 function logOutHandler() {
     $('button.logOut').on("click", function () {
         event.preventDefault();
-         var myurl = "https://agile-coast-54783.herokuapp.com/users/logout";
+         var myurl = "https://theperfectcup.herokuapp.com/users/logout";
         // var myurl = "http://localhost:8080/users/logout"
         $.get(myurl, function (data) {
             $('.logOutBox').hide();
@@ -513,7 +513,7 @@ function logOutHandler() {
 }
 
 function logIn(userName, password) {
-    var myurl = "https://agile-coast-54783.herokuapp.com/users/login";
+    var myurl = "https://theperfectcup.herokuapp.com/users/login";
     // var myurl = "http://localhost:8080/users/login";
     jQuery.ajax({
         url: myurl,
@@ -551,7 +551,7 @@ function deleteHandler() {
     $('.flex-container').on("click", ".deleteShop", function (event) {
         event.preventDefault()
 
-          var myurl = "https://agile-coast-54783.herokuapp.com/coffeeshops/";
+          var myurl = "https://theperfectcup.herokuapp.com/coffeeshops/";
         // var myurl = "http://localhost:8080/coffeeshops/";
         event.preventDefault();
         $.ajax({
