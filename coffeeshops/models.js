@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const coffeeShopsSchema = mongoose.Schema({
+var coffeeShopsSchema = mongoose.Schema({
   name: {type: String, required: true},
   address: {type: String, required: true, unique: true},
-  rating: {type: Number, required: true},
+  rating: {type: Number},
   description: {type: String},
-  price: {type: Number}
+  price: {type: String}
 
-});
+},{ usePushEach: true });
 
 coffeeShopsSchema.methods.apiRepr = function() {
 

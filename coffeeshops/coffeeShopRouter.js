@@ -12,6 +12,7 @@ const { coffeeShops } = require('./models');
 
 router.get('/', (req, res) => {
 
+  console.log(req.user)
   var coffeeShops = req.user.coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
   res.json(coffeeShops);
 
@@ -23,6 +24,7 @@ router.post('/', jsonParser,
 
     let user = req.user;
     let address = req.body.address;
+
 
     const requiredFields = ['name', 'address'];
     for (let i = 0; i < requiredFields.length; i++) {
@@ -45,12 +47,14 @@ router.post('/', jsonParser,
       })
       .then(
       function (coffeeshop) {
-        user.coffeeShops.push(coffeeshop);
+     
+        user.coffeeShops = user.coffeeShops.concat([coffeeshop])
         user.save()
           .then(function (user) {
             res.status(201).json(coffeeshop.apiRepr());
           })
       });
+      
 
 
   });
@@ -71,8 +75,6 @@ router.delete('/:id', (req, res) => {
     then(function (user) {
       res.json("successfully deleted")
     })
-
-
 
 
 });

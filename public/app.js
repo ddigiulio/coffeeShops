@@ -183,7 +183,6 @@ function initAutocomplete() {
         infowindow.close();
         marker.setVisible(false);
         var place = autocomplete.getPlace();
-        //   console.log(place.geometry.location.lat())
         pos = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng())
         searchPlaces(pos, map)
         if (!place.geometry) {
@@ -215,8 +214,7 @@ function searchPlaces(pos, map) {
     var prevMarkers = [];
     var markers = [];
     pos = pos;
-    console.log("HERE")
-    console.log(pos)
+
 
     var service = new google.maps.places.PlacesService(map);
     var promise = new Promise(function (resolve, reject) {
@@ -302,7 +300,7 @@ function searchPlaces(pos, map) {
                     infowindow.maxWidth = 200;
                     prevMarkers.push(i);
                     var currentShop = places[markers[i].placeRef];
-
+                    map.setCenter(currentShop.geometry.location);
                     if (currentShop.price_level == undefined) {
                         currentShop.price_level = "Not provided";
                     }
@@ -352,7 +350,7 @@ function searchPlaces(pos, map) {
                                     dataType: "json",
                                     contentType: "application/json; charset=utf-8",
                                     success: function (data) {
-                                        console.log("successfully added: " + data)
+                                        
                                         showCoffeeShops();
                                     }
                                 });
@@ -411,7 +409,7 @@ function showCoffeeShops() {
             }
             templateMobile += "<br>";
 
-            if (coffeeShop.price != 100) {
+            if (coffeeShop.price != "Not provided") {
 
                 var priceString = "";
 
@@ -455,11 +453,10 @@ function signUpHandler() {
     })
 
     $('#signUpForm').on("submit", function (event) {
-        console.log("herebud")
+        
         event.preventDefault();
         var userName = this.username.value;
         var password = this.password.value;
-        console.log("userName:" + userName + " passWord:" + password)
         jQuery.ajax({
             url: myurl,
             type: "POST",
