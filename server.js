@@ -13,8 +13,9 @@ mongoose.Promise = global.Promise;
 const {PORT, DATABASE_URL} = require('./config');
 
 const app = express();
-app.use(express.static('public'));
 app.use(cors());
+app.use(express.static('public'));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
