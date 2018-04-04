@@ -611,6 +611,8 @@ function removeHandler() {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                $('#tempBox').empty();
+                $('#tempBox').addClass("hidden1")
                 showCoffeeShops();
 
             },
