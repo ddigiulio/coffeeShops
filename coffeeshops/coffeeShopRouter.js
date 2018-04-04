@@ -11,8 +11,6 @@ const { coffeeShops } = require('./models');
 
 
 router.get('/', (req, res) => {
-
-  console.log(req.user)
   var coffeeShops = req.user.coffeeShops.map(coffeeshop => coffeeshop.apiRepr())
   res.json(coffeeShops);
 
@@ -59,12 +57,13 @@ router.post('/', jsonParser,
 
   });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:name', (req, res) => {
+
 
   let user = req.user
   var index;
   user.coffeeShops.forEach((coffeeshop, i) => {
-    if (coffeeshop.id === req.params.id) {
+    if (coffeeshop.name === req.params.name) {
       index = i;
       return;
     }

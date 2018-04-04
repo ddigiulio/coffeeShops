@@ -8,6 +8,28 @@
         height: 100%;
         width: 100%;
     }
+
+    .startContainer{
+        width: 100%;
+        height: 200px;
+        position: absolute;
+        top: 300px;
+    }
+    .startBox{
+        z-index: 99999;
+        text-align: center;
+        border: thin solid #A47D2C;
+        background-color: #FDE9C5;
+        border-radius: 5px;
+        width: 350px;
+        height: 100px;  
+        padding-top: 3px;
+        margin: 0 auto; 
+        padding: 3px;  
+        color: #2F2933;   
+        font-size: 20px;
+        font-family: 'Baloo', cursive;
+    }
     html, body {
         height: 100%;
         margin: 0;
@@ -124,7 +146,7 @@
         border-color: #4d90fe;
     }
     #title {
-        color: black;
+        color: #2F2933;
         background-color: #FDE9C5;
         border-bottom: 1px solid #A47D2C;
         padding: 6px 12px;
@@ -461,6 +483,37 @@ input:focus {
         height: 100%;
         width: 100%;
     }
+    .removeContainer{
+        text-align: center;
+    }
+    .removeShop{
+        font-size: 18px;
+        width: auto;
+        margin: 0 auto;
+        padding: 3px;
+        color: #2F2933;  
+        font-family: 'Baloo', cursive;
+    }
+    .startContainer{
+        width: 100%;
+        height: 200px;
+        position: absolute;
+        top: 300px;
+    }
+    .startBox{
+        z-index: 99999;
+        text-align: center;
+        border: thin solid #A47D2C;
+        background-color: #FDE9C5;
+        border-radius: 5px;
+        width: 350px;
+        height: 165px; 
+         
+        margin: 0 auto; 
+        color: #2F2933;     
+        font-size: 26px;
+        font-family: 'Baloo', cursive;
+    }
     /* Optional: Makes the sample page fill the window. */
     html, body {
         height: 100%;
@@ -586,7 +639,7 @@ input:focus {
         border-color: #4d90fe;
     }
     #title {
-        color: black;
+        color: #2F2933;
         background-color: #FDE9C5;
         border-bottom: 1px solid #A47D2C;
         padding: 6px 12px;

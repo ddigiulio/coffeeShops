@@ -214,6 +214,7 @@ function searchPlaces(pos, map) {
     var prevMarkers = [];
     var markers = [];
     pos = pos;
+    $(".startContainer").addClass("hidden");
 
 
     var service = new google.maps.places.PlacesService(map);
@@ -350,7 +351,7 @@ function searchPlaces(pos, map) {
                                     dataType: "json",
                                     contentType: "application/json; charset=utf-8",
                                     success: function (data) {
-                                        
+
                                         showCoffeeShops();
                                     }
                                 });
@@ -453,7 +454,7 @@ function signUpHandler() {
     })
 
     $('#signUpForm').on("submit", function (event) {
-        
+
         event.preventDefault();
         var userName = this.username.value;
         var password = this.password.value;
@@ -528,7 +529,7 @@ function logIn(userName, password) {
 
             $('#splashPage').addClass("hidden1");
             $('#pac-card').removeClass("hidden");
-            
+            $('.startContainer').removeClass("hidden");
             $('#map').removeClass("hidden");
             $('#results').removeClass("hidden");
             $('.logOutBox').show();
@@ -536,7 +537,7 @@ function logIn(userName, password) {
             $('.signUp').addClass('hidden');
             $('.login').removeClass('hidden');
             $('.flex-container').css("display", "flex")
-            
+
             showCoffeeShops();
 
         }
@@ -544,30 +545,6 @@ function logIn(userName, password) {
 
 }
 
-function deleteHandler() {
-    $('.flex-container').on("click", ".deleteShop", function (event) {
-        event.preventDefault()
-
-          var myurl = "https://theperfectcup.herokuapp.com/coffeeshops/";
-        // var myurl = "http://localhost:8080/coffeeshops/";
-        event.preventDefault();
-        $.ajax({
-            url: myurl + $(this).parent().attr("unique"),
-            type: "Delete",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                showCoffeeShops();
-
-            },
-            error: function (data) {
-
-                console.log("error")
-            }
-        });
-
-    })
-}
 
 function hoverHandler() {
 
@@ -611,6 +588,8 @@ function hoverHandler() {
             if (coffeeShop.description !== "~~~~~!@@!~~~~~") {
                 template += '<span class="hoverText">' + "Description: " + coffeeShop.description + '</span>';
             }
+            template += "<br>";
+            template += '<div class="removeContainer"><button class="removeShop">Remove coffeeshop</button></div>'
 
             $('#tempBox').append(template);
             $('#tempBox').css({ 'bottom': bottomPosition, 'left': leftPosition });
@@ -619,8 +598,29 @@ function hoverHandler() {
     });
 }
 
+function removeHandler() {
+    $('#tempBox').on("click", "button", function (event) {
+        event.preventDefault();
+        console.log()
+        var myurl = "https://theperfectcup.herokuapp.com/coffeeshops/";
+        // var myurl = "http://localhost:8080/coffeeshops/";
+        event.preventDefault();
+        $.ajax({
+            url: myurl + $('#tempBox .name').text(),
+            type: "Delete",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                showCoffeeShops();
 
-$(deleteHandler);
+            },
+            error: function (data) {
+                console.log("error")
+            }
+        });
+    })
+}
+$(removeHandler);
 $(signUpHandler);
 $(logInHandler);
 $(logOutHandler);
